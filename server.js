@@ -1,6 +1,7 @@
 var express = require('express'),
 	app = express.createServer(),
-	io = require('socket.io').listen(app);
+	io = require('socket.io').listen(app),
+	RedisStore = require('connect-redis')(express);
 
 app.listen(3333);
 
