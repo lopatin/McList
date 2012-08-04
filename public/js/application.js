@@ -2,6 +2,7 @@ tpl.loadTemplates(['task', 'taskedit'], function(){
 	window.appRouter = new window.AppRouter();
 	console.log ("hul igennem");
 	
+	window.masterCursor = new window.Cursor();
 	window.keyListener = new window.KeyListener();
 	$('body')
 		.keypress (function(event){

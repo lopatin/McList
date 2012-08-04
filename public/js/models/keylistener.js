@@ -16,6 +16,7 @@ window.KeyListener = Backbone.Model.extend({
 	
 	keyup: function(key){
 		this.strokes.add (key);
+//		console.log (key);
 	}
 	
 });

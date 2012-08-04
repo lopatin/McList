@@ -4,10 +4,44 @@ var StrokeList = Backbone.Collection.extend({
 	keymap: {
 		16: 'shiftKey',
 		17: 'ctrlKey',
-		18: 'altKey'
+		18: 'altKey',
+		37: 'left',
+		38: 'up',
+		39: 'right',
+		40: 'down'
+	},
+	commandMap: {
+		'i': {
+				action: 'insert'
+			},
+		'a': {
+				action: 'insert'
+			},
+		'd': {
+				d: {
+					action: 'delete'
+				}
+			},
+		'o': {
+			action: 'newLine'
+		},
+		'k': {
+			action: 'up'
+		},
+		'j': {
+			action: 'down'
+		},
+		'l': {
+			action: 'right'
+		},
+		'h': {
+			action: 'left'
+		}
 	},
 	
 	initialize: function(){
+		var that = this;
+		this.view = new StrokeListView({model: that});
 		this.on ('add', function(element){
 			if (element.attributes.type == 'keyup'){
 				switch (element.attributes.which){
@@ -27,7 +61,6 @@ var StrokeList = Backbone.Collection.extend({
 						} else {
 							console.log ('1');
 						}
-
 						console.log (this.keymap[element.attributes.which]);
 					break;
 					
@@ -38,25 +71,50 @@ var StrokeList = Backbone.Collection.extend({
 					break;
 					// arrow keys
 					case 37:
-						console.log ('left');
-					break;
 					case 38:
-						console.log ('up');
-					break;
 					case 39:
-						console.log ('right');
-					break;
 					case 40:
-						console.log ('down');
+			//			console.log (this.keymap[element.attributes.which]);
 					break;
 					default:
 						this.remove(element);
 					break;
 				}
 			} else if (element.attributes.type == 'keypress'){
-				console.log (element.attributes);
+				
 			}
+			
+			var path = this.commandMap;
+			for (index in this.models){
+				var charData = this.models[index].attributes;
+				if (charData.type == 'keypress' && path[String.fromCharCode(charData.charCode)] == undefined){
+					// exiting
+					index = this.models.length;
+					console.log ('flushing');
+					this.reset();
+				} else {
+					// climbing further in the tree or performing a command
+					var action;
+					if (charData.type == 'keyup'){
+						// keyup type events
+						action = this.keymap[charData.keyCode];
+					} else if (charData.type == 'keypress'){
+						// keypress type events
+						action = String.fromCharCode(charData.keyCode);
+					}
+					console.log (action);
+					console.log (path);
+					console.log (path[action]);
+					if (path[action].action != undefined){
+						// doing
+						window.masterCursor[path[action].action];
+					}
+				}
+			}
+						
+			this.view.render();
 		});
+		
 	}
 	
 	
