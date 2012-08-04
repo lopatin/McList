@@ -11,32 +11,17 @@ var StrokeList = Backbone.Collection.extend({
 		40: 'down'
 	},
 	commandMap: {
-		'i': {
-				action: 'insert'
+		'i': { action: 'insert' },
+		'a': { action: 'insert' },
+		'e': { action: 'edit' },
+		'd': { 
+				d: { action: 'delete' }
 			},
-		'a': {
-				action: 'insert'
-			},
-		'd': {
-				d: {
-					action: 'delete'
-				}
-			},
-		'o': {
-			action: 'newLine'
-		},
-		'k': {
-			action: 'up'
-		},
-		'j': {
-			action: 'down'
-		},
-		'l': {
-			action: 'right'
-		},
-		'h': {
-			action: 'left'
-		}
+		'o': { action: 'newLine' },
+		'k': { action: 'up' },
+		'j': { action: 'down' },
+		'l': { action: 'right' },
+		'h': { action: 'left' }
 	},
 	
 	initialize: function(){
@@ -45,35 +30,29 @@ var StrokeList = Backbone.Collection.extend({
 		this.on ('add', function(element){
 			if (element.attributes.type == 'keyup'){
 				switch (element.attributes.which){
-					case 16:
-					case 17:
-					case 18:
+					case 16: case 17: case 18:
 						// ignoring alt, ctrl, shift keys
-						if (this.models[this.models.length - 2].attributes[this.keymap[element.attributes.which]]){
-							// timeDiff is the difference between the last two key events that have been recorded
-							var timeDiff=	this.models[this.models.length - 1].attributes.timeStamp
-										  -	this.models[this.models.length - 2].attributes.timeStamp;
-							if (timeDiff < 100){
-								this.remove(element);
-							} else {
-								console.log (timeDiff);
+						if (this.models.length > 1){						
+							if (this.models[this.models.length - 2].attributes[this.keymap[element.attributes.which]]){
+								// timeDiff is the difference between the last two key events that have been recorded
+								var timeDiff=	this.models[this.models.length - 1].attributes.timeStamp
+											  -	this.models[this.models.length - 2].attributes.timeStamp;
+								if (timeDiff < 100){
+									this.remove(element);
+								} else {
+									console.log (timeDiff);
+								}
 							}
-						} else {
-							console.log ('1');
 						}
 						console.log (this.keymap[element.attributes.which]);
 					break;
 					
-					case 91:
-					case 93:
+					case 91: case 93:
 						// cmd keys
 						console.log ('cmd keys');
 					break;
 					// arrow keys
-					case 37:
-					case 38:
-					case 39:
-					case 40:
+					case 37: case 38: case 39: case 40:
 			//			console.log (this.keymap[element.attributes.which]);
 					break;
 					default:
@@ -84,14 +63,15 @@ var StrokeList = Backbone.Collection.extend({
 				
 			}
 			
-			var path = this.commandMap;
+			this.path = this.commandMap;
 			for (index in this.models){
 				var charData = this.models[index].attributes;
-				if (charData.type == 'keypress' && path[String.fromCharCode(charData.charCode)] == undefined){
+				if (charData.type == 'keypress' && this.path[String.fromCharCode(charData.charCode)] == undefined){
 					// exiting
 					index = this.models.length;
 					console.log ('flushing');
 					this.reset();
+					this.view.render();
 				} else {
 					// climbing further in the tree or performing a command
 					var action;
@@ -102,19 +82,36 @@ var StrokeList = Backbone.Collection.extend({
 						// keypress type events
 						action = String.fromCharCode(charData.keyCode);
 					}
-					console.log (action);
-					console.log (path);
-					console.log (path[action]);
-					if (path[action].action != undefined){
-						// doing
-						window.masterCursor[path[action].action];
+				
+					if (action != undefined){
+						if (this.path[action] != undefined){
+							// the path is defined
+							if (this.path[action].action != undefined){
+								// doing
+								console.log ('doing');
+								window.masterCursor[this.path[action].action]();
+								$(this.view.$el).html(this.path[action].action);
+								this.reset();
+							} else {
+								// waiting
+								console.log ('waiting');
+								this.path = this.path[action];
+								this.view.render();
+							}
+						} else {
+							console.log ('doing');
+							window.masterCursor[action]();
+							$(this.view.$el).html(action);
+						}
+					} else {
+						// no path
+						console.log ('flushing');
+						this.reset();
+						this.view.render();
 					}
 				}
 			}
-						
-			this.view.render();
 		});
-		
 	}
 	
 	

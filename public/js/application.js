@@ -2,7 +2,6 @@ tpl.loadTemplates(['task', 'taskedit'], function(){
 	window.appRouter = new window.AppRouter();
 	console.log ("hul igennem");
 	
-	window.masterCursor = new window.Cursor();
 	window.keyListener = new window.KeyListener();
 	$('body')
 		.keypress (function(event){
@@ -18,4 +17,15 @@ tpl.loadTemplates(['task', 'taskedit'], function(){
 			console.log (resp);
 		}
 	);
+	window.task = new window.Task({
+		taskname: 'main',
+		type: 'top'
+	});
+	$("#tasklist").append(window.task.view.$el);
+
+	window.masterCursor = new window.Cursor({
+		position: window.task
+	});
+	window.cursorList = new window.CursorList();
+	window.cursorList.add (window.masterCursor);
 });
