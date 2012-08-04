@@ -93,7 +93,7 @@ app.get('/', function(req, res){
 
 	console.log("FROM EXPRESS: "+req.session.clientId);
 
-	fs.readFile(__dirname + '/public/myindex.html', 'utf8', function(err, text){
+	fs.readFile(__dirname + '/public/index.html', 'utf8', function(err, text){
         res.send(text);
     });
 });
