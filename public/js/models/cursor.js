@@ -11,9 +11,16 @@ window.Cursor = Backbone.Model.extend({
 	},
 	
 	left: function(){
+		console.log ('left');
 		
+		if (this.attributes.position.collection != undefined){		
+			this.set({
+				position: this.attributes.position.collection.parent
+			});
+		}
 	},
 	up: function(){
+		console.log ('up');
 		// index holds where the task is in the list
 		var index = $.inArray(this.get('position'), this.attributes.position.collection.models);
 
@@ -25,9 +32,11 @@ window.Cursor = Backbone.Model.extend({
 			break;
 			case 0:
 				// first element. Moving up a level
-				this.set ({
-					position: this.attributes.position.collection.parent
-				});
+				if (this.attributes.position.collection != undefined){
+					this.set ({
+						position: this.attributes.position.collection.parent
+					});
+				}
 			break;
 			default:
 				// not first element. Moving up a task
@@ -38,32 +47,52 @@ window.Cursor = Backbone.Model.extend({
 		}
 	},
 	right: function(){
+		console.log ('right');
 		
+		if (this.attributes.position.tasklist.models.length > 0){
+			this.set({
+				position: this.attributes.position.tasklist.models[0]
+			});
+			return true;
+		} else {
+			return false;
+		}
 	},
 	down: function(){
 		console.log ('down');
-		// index holds where the task is in the list
-		var index = $.inArray(this.get('position'), this.attributes.position.collection.models);
 
-		console.log (index);
-		switch (index){
-			case -1:
-				// error - task is not in index
-				console.log ('error');
-			break;
-			case this.attributes.position.collection.models.length:
-				// last element. Moving down
+		if (this.attributes.position.collection == undefined){
+			// if there is no collection
+			
+		} else {
+			// ther is a collection
+		
+			// index holds where the task is in the list
+			var index = $.inArray(this.get('position'), this.attributes.position.collection.models);
 
-			break;
-			default:
-				// not first element. Moving up a task
-				console.log (this.attributes.position.collection);
+			console.log (index);
+			switch (index){
+				case -1:
+					// error - task is not in index
+					console.log ('error');
+				break;
+				case this.attributes.position.collection.models.length - 1:
+					// last element. Moving down
+					console.log ('last');
+					this.left();
+					this.down();
+				break;
+				default:
+					// not first element. Moving up a task
+					console.log (this.attributes.position.collection);
 
-/*				this.set ({
-					position: this.attributes.position.collection.models[index+1]
-				});
-*/			break;
-		}		
+	/*				this.set ({
+						position: this.attributes.position.collection.models[index+1]
+					});
+	*/			break;
+			}		
+	
+		}
 	},
 	
 	insert: function(){

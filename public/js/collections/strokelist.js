@@ -101,6 +101,7 @@ var StrokeList = Backbone.Collection.extend({
 						} else {
 							console.log ('doing');
 							window.masterCursor[action]();
+							this.reset();
 							$(this.view.$el).html(action);
 						}
 					} else {
