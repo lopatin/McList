@@ -15,17 +15,38 @@ function Tree(){
 	this.master = new Task();
 	var count = 0;
 
-	this.emptyTask = function(){
-
+	this.addTask = function(parent_id){
+		count++;
+		this.master.insertNew(parent_id, count);
 	}
 
-	this.
+	this.deleteTask = function(id){
+		this.master.deleteTask(id);
+	}
+
 }
 
 function Task(id){
 	this.children = [];
 	this.text = "";
 	this.id = id;
+
+	this.insertNew = function(parent_id, new_id){
+		if(this.id == parent_id) this.children.push(new Task(new_id));
+		_.each(this.children, function(child){
+			child.insertNew(parent_id, new_id);
+		});
+	};
+
+	this.deleteTask = function(id){
+		this.children = _.filter(this.children, function(child){
+			return child.id != id;
+		});
+
+		_.each(this.children, function(child){
+			child.deleteTask();
+		});
+	};
 }
 
 
@@ -64,6 +85,8 @@ io.configure(function() {
     });
 });
 
+var tree = new Tree();
+
 
 /*
  * Most app logic (socket communication)
@@ -83,6 +106,7 @@ io.sockets.on('connection', function(socket){
 	});
 
 	socket.on('add_task', function(parent_id, fn){
+		tree.addTask(parent_id);
 		socket.broadcast.emit('added_task');
 		fn();
 	});
