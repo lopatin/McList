@@ -79,23 +79,28 @@ io.sockets.on('connection', function(socket){
 
 });
 
-var count = 0;
-
 /*
  * Main page render
  */
 app.get('/', function(req, res){
 	console.log('asdf');
 	if(!(req.session && req.session.clientId)){
+		redis.incr('user_id');
+		redis.get('user_id', function(err, response){
+			req.session.clientId = response;
+			sendIndex();
+		});
 		req.session.clientId = count;
-		count++;
+	} else sendIndex();
+
+	function sendIndex(){
+		console.log("FROM EXPRESS: "+req.session.clientId);
+
+		fs.readFile(__dirname + '/public/index.html', 'utf8', function(err, text){
+	        res.send(text);
+	    });
 	}
 
-	console.log("FROM EXPRESS: "+req.session.clientId);
-
-	fs.readFile(__dirname + '/public/index.html', 'utf8', function(err, text){
-        res.send(text);
-    });
 });
 
 app.use(express.static(__dirname + '/public'));
