@@ -9,7 +9,6 @@ window.TaskView = Backbone.View.extend({
 		var template = _.template(tpl.get('task'));
 		this.el = template(this.model.attributes);
 		this.$el.html (this.el);
-		console.log (this.$('.tasklist'));
 
 		$(this.$('form')[0]).submit(function(){
 			that.model.attributes.taskname = that.$('form')[0].elements['taskname'].value;

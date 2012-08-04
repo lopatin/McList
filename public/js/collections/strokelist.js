@@ -88,18 +88,16 @@ var StrokeList = Backbone.Collection.extend({
 							// the path is defined
 							if (this.path[action].action != undefined){
 								// doing
-								console.log ('doing');
 								window.masterCursor[this.path[action].action]();
 								$(this.view.$el).html(this.path[action].action);
 								this.reset();
 							} else {
 								// waiting
-								console.log ('waiting');
+
 								this.path = this.path[action];
 								this.view.render();
 							}
 						} else {
-							console.log ('doing');
 							if (window.masterCursor[action] != undefined){
 								window.masterCursor[action]();
 								this.reset();
@@ -108,7 +106,6 @@ var StrokeList = Backbone.Collection.extend({
 						}
 					} else {
 						// no path
-						console.log ('flushing');
 						this.reset();
 						this.view.render();
 					}

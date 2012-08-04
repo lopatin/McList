@@ -6,8 +6,7 @@ window.TaskList = Backbone.Collection.extend({
 		var that = this;
 		
 		this.on('add', function(element){
-			console.log (element);
-			console.log (that);
+
 		});
 		this.on('remove', function(element){
 			console.log (element);

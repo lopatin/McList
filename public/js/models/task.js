@@ -8,11 +8,6 @@ window.Task = Backbone.Model.extend({
 
 		this.view = new window.TaskView({model: this});
 		this.view.render();
-
-		this.on("change", function(){
-			this.view.render();
-			console.log ('change');
-		});
 	},
 	
 	change: function(){
@@ -20,7 +15,9 @@ window.Task = Backbone.Model.extend({
 	},
 	
 	delete: function(){
-		
+		console.log ('delete');
+		this.collection.remove(this);
+		$(this.view.$el).remove();
 	},
 	
 	lock: function(){

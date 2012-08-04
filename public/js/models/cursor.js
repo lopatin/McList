@@ -11,8 +11,6 @@ window.Cursor = Backbone.Model.extend({
 	},
 	
 	left: function(){
-		console.log ('left');
-		
 		if (this.attributes.position.collection != undefined){		
 			this.set({
 				position: this.attributes.position.collection.parent
@@ -20,7 +18,6 @@ window.Cursor = Backbone.Model.extend({
 		}
 	},
 	up: function(){
-		console.log ('up');
 		// index holds where the task is in the list
 		if (this.attributes.position.collection != undefined){
 			var index = $.inArray(this.get('position'), this.attributes.position.collection.models);
@@ -49,8 +46,6 @@ window.Cursor = Backbone.Model.extend({
 		}
 	},
 	right: function(){
-		console.log ('right');
-		
 		if (this.attributes.position.tasklist.models.length > 0){
 			this.set({
 				position: this.attributes.position.tasklist.models[0]
@@ -61,8 +56,6 @@ window.Cursor = Backbone.Model.extend({
 		}
 	},
 	down: function(){
-		console.log ('down');
-
 		if (this.attributes.position.collection == undefined){
 			// if there is no collection
 			
@@ -98,7 +91,6 @@ window.Cursor = Backbone.Model.extend({
 	},
 	
 	insert: function(){
-		console.log ('insert');
 		var newEl = 
 			$(this.attributes.position.tasklist.add({
 				taskname: 'new task'
@@ -112,7 +104,12 @@ window.Cursor = Backbone.Model.extend({
 	},
 	
 	delete: function(){
-		console.log ('delete');		
+		console.log ('delete');
+		var that = this,
+			pos  = this.attributes.position;
+		
+		this.up();
+		pos.delete();
 	},
 	
 	newLine: function(){
@@ -132,18 +129,14 @@ window.Cursor = Backbone.Model.extend({
 
 		$(this.attributes.position.view.$('h3')[0]).css({'display': 'none'});
 		$(this.attributes.position.view.$('form')[0]).css({'display': 'block'});
-
-		$(this.attributes.position.view.$('form')[0].elements['taskname']).keypress(function(event){
-			console.log (event);
-		});
 		
 		this.attributes.position.view.$('form')[0].elements['taskname'].focus();
 
-		console.log(this.attributes.position.view.$('form')[0].elements[0].value);
+	//	console.log(this.attributes.position.view.$('form')[0].elements[0].value);
 
 		this.attributes.position.view.$('form')[0].elements[0].value = val;
 
-		console.log(this.attributes.position.view.$('form')[0].elements[0].value);
+	//		console.log(this.attributes.position.view.$('form')[0].elements[0].value);
 
 	}
 });
