@@ -7,6 +7,7 @@ var	fs 				= require('fs'),
 	_redis 			= require('redis'),
 	redis 			= _redis.createClient(),
 	app 			= express.createServer(),
+	async			= require('async'),
 	io 				= require('socket.io').listen(app);
 
 /*
@@ -45,7 +46,6 @@ io.configure(function() {
 });
 
 
-
 /*
  * Most app logic (socket communication)
  */
@@ -56,8 +56,18 @@ io.sockets.on('connection', function(socket){
 	/*
 	 * socket represents an open socket connection with one browser
 	 */
-	socket.emit('user-info', {
-		user_id: session.clientId
+	async.series({
+		last_main_task: function(callback){
+			redis.get('last-main-task', function(err, response){
+				callback(err, response);
+			});
+		}
+	}, 
+	function(err, results){
+		socket.emit('initial-info', {
+			user_id: session.clientId,
+			main_task: results.last_main_task
+		});
 	});
 
 	socket.on('test', function(data){
