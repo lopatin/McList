@@ -1,6 +1,7 @@
 var express = require('express'),
 	app = express.createServer(),
-	io = require('socket.io').listen(app);
+	io = require('socket.io').listen(app),
+	sessionStore = new RedisStore();
 
 app.listen(3333);
 
@@ -13,6 +14,8 @@ io.sockets.on('connection', function(socket){
 	socket.on('test', function(data){
 		console.log(data);
 	});
+
+	socket.emit('test', 'MAGNUS SMASH');
 
 	/*
 	 * How to use socket io
