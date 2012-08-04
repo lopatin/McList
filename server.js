@@ -32,18 +32,40 @@ app.register('.html', {
   }
 });
 
+/*
+ * Get sessions working with socket.io
+ */
+io.configure(function() {
+    io.set('authorization', function(data, callback) {
+        if (data.headers.cookie) {
+            var cookie = parseCookie(data.headers.cookie);
+            sessionStore.get(cookie['connect.sid'], function(err, session) {
+                if (err || !session) {
+                    callback('Error', false);
+                } else {
+                    data.session = session;
+                    callback(null, true);
+                }
+            });
+        } else {
+            callback('No cookie', false);
+        }
+    });
+});
+
 app.listen(3333);
 
 /*
  * Most app logic (socket communication)
  */
 io.sockets.on('connection', function(socket){
+	var session = socket.handshake.session;
 
 	/*
 	 * socket represents an open socket connection with one browser
 	 */
 	socket.emit('user-info', {
-
+		session: session
 	});
 
 	socket.on('test', function(data){
