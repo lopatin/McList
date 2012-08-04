@@ -47,6 +47,13 @@ function Task(id){
 			child.deleteTask();
 		});
 	};
+
+	this.updateTask = function(task_id, text){
+		if(this.id == task_id) this.text = text;
+		_.each(this.children, function(child){
+			child.updateTask(task_id, text);
+		});
+	};
 }
 
 
@@ -112,11 +119,13 @@ io.sockets.on('connection', function(socket){
 	});
 
 	socket.on('delete_task', function(id, fn){
+		tree.deleteTask(id);
 		socket.broadcast.emit('deleted_task');
 		fn();
 	});
 
 	socket.on('update_task', function(data, fn){
+		tree.updateTask(data.task_id, data.text);
 		socket.broadcast.emit('updated_task');
 		fn();
 	});
