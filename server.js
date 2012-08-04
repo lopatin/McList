@@ -90,7 +90,8 @@ app.get('/', function(req, res){
 			req.session.clientId = response;
 			sendIndex();
 		});
-	} else sendIndex();
+	} 
+	else sendIndex();
 
 	function sendIndex(){
 		console.log("FROM EXPRESS: "+req.session.clientId);
