@@ -9,7 +9,13 @@ app.listen(3333);
 
 io.sockets.on('connection', function(socket){
 
+	socket.emit('user-info', {
 
+	});
+
+	socket.on('test', function(data){
+		console.log(data);
+	});
 
 	/*
 	 * How to use socket io
