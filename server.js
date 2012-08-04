@@ -1,11 +1,47 @@
 var express = require('express'),
 	app = express.createServer(),
 	io = require('socket.io').listen(app),
-	RedisStore = require('connect-redis')(express);
+	RedisStore = require('connect-redis')(express),
+	sessionStore = new RedisStore(),
+	_ =	require('underscore');
+
+/*
+ * Configure the express.js server
+ */
+app.configure(function(){
+	app.set('views', __dirname);
+	app.use(express.bodyParser());
+	app.use(express.methodOverride());
+	app.use(express.static(__dirname + '/public'));
+	app.use(express.cookieParser());
+	app.use(express.session({
+		secret: "PeopleLoveLists",
+		store: sessionStore
+	}));
+});
+
+/*
+ * Underscore templates
+ */
+app.register('.html', {
+  compile: function(str, options){
+    var compiled = require('underscore').template(str);
+    return function(locals) {
+        return compiled(locals);
+    };
+  }
+});
 
 app.listen(3333);
 
+/*
+ * Most app logic (socket communication)
+ */
 io.sockets.on('connection', function(socket){
+
+	/*
+	 * socket represents an open socket connection with one browser
+	 */
 
 	socket.emit('user-info', {
 
@@ -31,6 +67,3 @@ io.sockets.on('connection', function(socket){
 	});
 });
 
-app.get('/', function(req, res){
-	res.send('testing the index action');
-});
