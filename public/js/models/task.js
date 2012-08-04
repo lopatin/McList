@@ -8,6 +8,11 @@ window.Task = Backbone.Model.extend({
 
 		this.view = new window.TaskView({model: this});
 		this.view.render();
+
+		this.on("change", function(){
+			this.view.render();
+			console.log ('change');
+		});
 	},
 	
 	change: function(){

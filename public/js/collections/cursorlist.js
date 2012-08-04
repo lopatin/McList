@@ -10,7 +10,7 @@ var CursorList = Backbone.Collection.extend({
 	},
 	
 	renderAll: function(){
-		$("#tasklist h3").css({
+		$("#tasklist .taskname").css({
 			"background-color": "white"
 		});
 		for (index in this.models){

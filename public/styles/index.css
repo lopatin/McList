@@ -12,3 +12,12 @@ body
 {
 	padding-left: 15px;
 }
+
+#tasklist .task .taskname h3
+{
+	display: block;
+}
+#tasklist .task .taskname form
+{
+	display: none;
+}

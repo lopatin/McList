@@ -22,28 +22,30 @@ window.Cursor = Backbone.Model.extend({
 	up: function(){
 		console.log ('up');
 		// index holds where the task is in the list
-		var index = $.inArray(this.get('position'), this.attributes.position.collection.models);
+		if (this.attributes.position.collection != undefined){
+			var index = $.inArray(this.get('position'), this.attributes.position.collection.models);
 
-		console.log (index);
-		switch (index){
-			case -1:
-				// error - task is not in index
-				console.log ('error');
-			break;
-			case 0:
-				// first element. Moving up a level
-				if (this.attributes.position.collection != undefined){
+			console.log (index);
+			switch (index){
+				case -1:
+					// error - task is not in index
+					console.log ('error');
+				break;
+				case 0:
+					// first element. Moving up a level
+					if (this.attributes.position.collection != undefined){
+						this.set ({
+							position: this.attributes.position.collection.parent
+						});
+					}
+				break;
+				default:
+					// not first element. Moving up a task
 					this.set ({
-						position: this.attributes.position.collection.parent
+						position: this.attributes.position.collection.models[index-1]
 					});
-				}
-			break;
-			default:
-				// not first element. Moving up a task
-				this.set ({
-					position: this.attributes.position.collection.models[index-1]
-				});
-			break;
+				break;
+			}
 		}
 	},
 	right: function(){
@@ -86,10 +88,10 @@ window.Cursor = Backbone.Model.extend({
 					// not first element. Moving up a task
 					console.log (this.attributes.position.collection);
 
-	/*				this.set ({
+					this.set ({
 						position: this.attributes.position.collection.models[index+1]
 					});
-	*/			break;
+				break;
 			}		
 	
 		}
@@ -106,6 +108,7 @@ window.Cursor = Backbone.Model.extend({
 		this.set({
 			'position': newEl
 		});
+		this.edit();
 	},
 	
 	delete: function(){
@@ -123,11 +126,24 @@ window.Cursor = Backbone.Model.extend({
 		
 	},
 	
-	open: function(){
+	edit: function(){
+		window.keyListener.active = false;
+		var val = this.attributes.position.view.$('form')[0].elements[0].value;
+
+		$(this.attributes.position.view.$('h3')[0]).css({'display': 'none'});
+		$(this.attributes.position.view.$('form')[0]).css({'display': 'block'});
+
+		$(this.attributes.position.view.$('form')[0].elements['taskname']).keypress(function(event){
+			console.log (event);
+		});
 		
-	},
-	close: function(){
-		
+		this.attributes.position.view.$('form')[0].elements['taskname'].focus();
+
+		console.log(this.attributes.position.view.$('form')[0].elements[0].value);
+
+		this.attributes.position.view.$('form')[0].elements[0].value = val;
+
+		console.log(this.attributes.position.view.$('form')[0].elements[0].value);
+
 	}
-	
 });

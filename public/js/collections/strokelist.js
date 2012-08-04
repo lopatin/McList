@@ -17,7 +17,7 @@ var StrokeList = Backbone.Collection.extend({
 		'd': { 
 				d: { action: 'delete' }
 			},
-		'o': { action: 'newLine' },
+//		'o': { action: 'newLine' },
 		'k': { action: 'up' },
 		'j': { action: 'down' },
 		'l': { action: 'right' },
@@ -100,9 +100,11 @@ var StrokeList = Backbone.Collection.extend({
 							}
 						} else {
 							console.log ('doing');
-							window.masterCursor[action]();
-							this.reset();
-							$(this.view.$el).html(action);
+							if (window.masterCursor[action] != undefined){
+								window.masterCursor[action]();
+								this.reset();
+								$(this.view.$el).html(action);
+							}
 						}
 					} else {
 						// no path

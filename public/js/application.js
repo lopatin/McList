@@ -1,4 +1,4 @@
-tpl.loadTemplates(['task', 'taskedit'], function(){
+tpl.loadTemplates(['task'], function(){
 	window.appRouter = new window.AppRouter();
 	console.log ("hul igennem");
 	
