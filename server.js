@@ -77,11 +77,25 @@ io.sockets.on('connection', function(socket){
 
 
 
-	socket.on('emit_to_all', function(data){
+	socket.on('emit_to_all', function(data, fn){
 		socket.broadcast.emit('emit-to-all', data);
+		fn();
 	});
 
-	socket.on('add_task');
+	socket.on('add_task', function(parent_id, fn){
+		socket.broadcast.emit('added_task');
+		fn();
+	});
+
+	socket.on('delete_task', function(id, fn){
+		socket.broadcast.emit('deleted_task');
+		fn();
+	});
+
+	socket.on('update_task', function(data, fn){
+		socket.broadcast.emit('updated_task');
+		fn();
+	});
 
 
 
