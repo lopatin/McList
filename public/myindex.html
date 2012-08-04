@@ -1,0 +1,16 @@
+<html>
+<head>
+<title>Hi</title>
+<script type="text/javascript" src="/js/libs/socketio.js"></script>
+<script type="text/javascript">
+
+var socket = io.connect('http://localhost:3333');
+
+socket.on('user-info', function(data){
+	alert(JSON.stringify(data.session));
+});
+
+</script>
+</head>
+<body></body>
+</html>
