@@ -42,7 +42,6 @@ io.sockets.on('connection', function(socket){
 	/*
 	 * socket represents an open socket connection with one browser
 	 */
-
 	socket.emit('user-info', {
 
 	});
@@ -50,8 +49,6 @@ io.sockets.on('connection', function(socket){
 	socket.on('test', function(data){
 		console.log(data);
 	});
-
-	socket.emit('test', 'MAGNUS SMASH');
 
 	/*
 	 * How to use socket io
