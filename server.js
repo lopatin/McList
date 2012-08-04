@@ -90,7 +90,6 @@ app.get('/', function(req, res){
 			req.session.clientId = response;
 			sendIndex();
 		});
-		req.session.clientId = count;
 	} else sendIndex();
 
 	function sendIndex(){
