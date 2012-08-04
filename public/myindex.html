@@ -6,8 +6,10 @@
 
 var socket = io.connect('http://localhost:3333');
 
+var myId;
+
 socket.on('user-info', function(data){
-	alert(JSON.stringify(data.session));
+	myId = data.user_id;
 });
 
 </script>

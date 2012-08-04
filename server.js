@@ -1,11 +1,13 @@
-var express = 		require('express'),
-	app = 			express.createServer(),
-	_cookie = 		require('cookie'),
-	io = 			require('socket.io').listen(app),
-	RedisStore = 	require('connect-redis')(express),
-	sessionStore = 	new RedisStore(),
-	_ =				require('underscore'),
-	fs = 			require('fs');
+var	fs 				= require('fs'),
+	_cookie  		= require('cookie'),
+	express 		= require('express'),
+	RedisStore 		= require('connect-redis')(express),
+	sessionStore 	= new RedisStore(),
+	_ 				= require('underscore'),
+	_redis 			= require('redis'),
+	redis 			= _redis.createClient(),
+	app 			= express.createServer(),
+	io 				= require('socket.io').listen(app);
 
 /*
  * Configure the express.js server
@@ -28,7 +30,7 @@ io.configure(function() {
         if (data.headers.cookie) {
             var cookie = _cookie.parse(data.headers.cookie);
             sessionStore.get(cookie['connect.sid'], function(err, session) {
-            	console.log("FROM SOCKET AUTH: "+session.myVar);
+            	console.log("FROM SOCKET AUTH: "+session.clientId);
                 if (err || !session) {
                     callback('Error', false);
                 } else {
@@ -48,13 +50,14 @@ io.configure(function() {
  * Most app logic (socket communication)
  */
 io.sockets.on('connection', function(socket){
-	console.log("FROM SOCKET: "+socket.handshake.session.myVar);
+	console.log("FROM SOCKET: "+socket.handshake.session.clientId);
+	var session = socket.handshake.session;
 
 	/*
 	 * socket represents an open socket connection with one browser
 	 */
 	socket.emit('user-info', {
-		session: null
+		user_id: session.clientId
 	});
 
 	socket.on('test', function(data){
