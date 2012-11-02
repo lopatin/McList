@@ -2,14 +2,15 @@
 # Main Mclist Applciation
 #
 
-class McList.Mclist
-	constructor: ->
-		@list = new List()
+mc = McList
 
+class mc.Mclist
+	constructor: ->
+		@list = new mc.List()
 
 
 #
 # Run the app 
 #
 
-McList.mclist = new Mclist
+mc.app = new mc.Mclist
