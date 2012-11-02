@@ -1,4 +1,0 @@
-McList
-======
-
-Vim bindings for
