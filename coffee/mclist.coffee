@@ -2,12 +2,14 @@
 # Main Mclist Applciation
 #
 
-class window.Mclist
+class McList.Mclist
 	constructor: ->
 		@list = new List()
+
+
 
 #
 # Run the app 
 #
 
-mclist = new Mclist
+McList.mclist = new Mclist
