@@ -57,9 +57,9 @@ mc.Commander =
 						when 'h'
 							mc.app.list.cursor.move_left()
 						when 'j'
-							mc.app.list.cursor.move_down()
+							mc.app.list.cursor.move_down(task)
 						when 'k'
-							mc.app.list.cursor.move_up()
+							mc.app.list.cursor.move_up(task)
 						when 'l'
 							mc.app.list.cursor.move_right()
 						when '$'

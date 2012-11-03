@@ -15,27 +15,26 @@ class mc.Cursor
 	move_left: ->
 		@set_char @char.prev if @char.prev
 
-	move_down: ->
-		if @char.char_list.task.task_list.start != null
-			@set_char @char.char_list.task.task_list.start.char_list.end
-		else if @char.char_list.task.next != null
-			@set_char @char.char_list.task.next.char_list.end
+	move_down: (curr_task) ->
+		if curr_task.task_list.start != null
+			@set_char curr_task.task_list.start.char_list.end
+		else if curr_task.next != null
+			@set_char curr_task.next.char_list.end
 		else
-			_parent = @char.char_list.task.parent
+			_parent = curr_task.parent
 			while _parent != null
 				if _parent.next != null
 					@set_char _parent.next.char_list.end
 					return
 				else _parent = _parent.parent
 
-	move_up: ->
-		_task = @char.char_list.task
-		if _task.prev is null
-			if _task.parent then @set_char _task.parent.char_list.end
+	move_up: (curr_task) ->
+		if curr_task.prev is null
+			if curr_task.parent then @set_char curr_task.parent.char_list.end
 			else move_to_first()
 			return
 		else
-			prev_subtask = _task.prev
+			prev_subtask = curr_task.prev
 			while prev_subtask.task_list.end != null
 				prev_subtask = prev_subtask.task_list.end
 			@set_char prev_subtask.char_list.end
