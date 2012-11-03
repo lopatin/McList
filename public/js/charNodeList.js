@@ -8,7 +8,7 @@
 
     function CharNodeList() {
       this.current = new mc.CharNode;
-      this.start = this.end = current;
+      this.start = this.end = this.current;
       this.length = 1;
     }
 
@@ -22,6 +22,17 @@
       if (this.end.next === !null) {
         return this.end.next = this.current;
       }
+    };
+
+    CharNodeList.prototype.to_array = function() {
+      var arr, curr;
+      arr = [];
+      curr = this.start;
+      while (curr) {
+        arr.push(curr);
+        curr = curr.next;
+      }
+      return arr;
     };
 
     return CharNodeList;

@@ -6,7 +6,7 @@ mc = McList
 
 class mc.Mclist
 	constructor: ->
-		@list = new mc.List()
+		@list = new mc.List(true)
 		mc.Commander.init()
 
 #

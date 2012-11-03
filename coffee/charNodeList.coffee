@@ -3,7 +3,7 @@ mc = McList
 class mc.CharNodeList
 	constructor: () ->
 		@current = new mc.CharNode   # cursor
-		@start = @end = current
+		@start = @end = @current
 		@length = 1
 
 	getSize: () ->
@@ -16,5 +16,10 @@ class mc.CharNodeList
 		if @end.next is not null
 			@end.next = @current
 
-
-
+	to_array: ->
+		arr = []
+		curr = @start
+		while curr
+			arr.push curr
+			curr = curr.next
+		arr

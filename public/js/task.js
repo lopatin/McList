@@ -6,12 +6,36 @@
 
   mc.Task = (function() {
 
-    function Task(root) {
-      this.root = root;
-      this.char_list = new mc.charNodeList();
+    function Task(parent, list) {
+      this.parent = parent;
+      this.list = list;
+      this.char_list = new mc.CharNodeList();
+      this.char_list.addChar('a');
+      this.char_list.addChar('b');
+      this.char_list.addChar('c');
+      this.char_list.addChar('d');
+      this.element = $("<div>").addClass('task');
+      this.content_div = $("<div>").addClass('content').appendTo(this.element);
+      this.children_div = $("<div>").addClass('chlidren').appendTo(this.element);
+      if (this.parent) {
+        this.parent.chlidren_div.append(this.element);
+      } else {
+        this.list.element.append(this.element);
+      }
+      this.render();
     }
 
-    Task.prototype.render = function(recursive) {};
+    Task.prototype.render = function(recursive) {
+      var char, _i, _len, _ref, _results;
+      this.content_div.html('');
+      _ref = this.char_list.to_array();
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        char = _ref[_i];
+        _results.push(this.content_div.append($("<div>").addClass('character').html(char.character)));
+      }
+      return _results;
+    };
 
     return Task;
 

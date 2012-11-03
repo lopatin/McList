@@ -7,7 +7,7 @@
   mc.Mclist = (function() {
 
     function Mclist() {
-      this.list = new mc.List();
+      this.list = new mc.List(true);
       mc.Commander.init();
     }
 
