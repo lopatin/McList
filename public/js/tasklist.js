@@ -20,7 +20,7 @@
         this.start = this.end = this.current = _task;
         this.length++;
       } else {
-        this.current = this.current.addTaskAfter();
+        this.current = this.current.addTaskAfter(this.parent);
       }
       if (this.end.next !== null) {
         this.end = this.current;

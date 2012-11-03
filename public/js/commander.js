@@ -51,6 +51,18 @@
             return self.key_queue = [];
           }
         },
+        "[..., c, d]": function(_arg) {
+          var c, d;
+          c = _arg[0], d = _arg[1];
+          if (mc.app.list.command_mode) {
+            switch ([c, d]) {
+              case ['d', 'd']:
+                console.log("pizza");
+                task.deleteTask();
+                return mc.app.list.cursor.move_down(task);
+            }
+          }
+        },
         "[..., c]": function(c) {
           if (mc.app.list.command_mode) {
             switch (c) {
@@ -59,16 +71,21 @@
                 break;
               case 'i':
                 mc.app.list.toggle_command_mode();
-                mc.app.list.cursor.move_left();
                 break;
               case 'o':
                 task.task_list.addTask();
                 break;
-              case 'l':
-                mc.app.list.cursor.move_right();
-                break;
               case 'h':
                 mc.app.list.cursor.move_left();
+                break;
+              case 'j':
+                mc.app.list.cursor.move_down(task);
+                break;
+              case 'k':
+                mc.app.list.cursor.move_up(task);
+                break;
+              case 'l':
+                mc.app.list.cursor.move_right();
                 break;
               case '$':
                 mc.app.list.cursor.move_to_last();
