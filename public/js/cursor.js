@@ -18,15 +18,51 @@
       return this.char.element.addClass('cursor');
     };
 
-    Cursor.prototype.move_right = function() {
-      if (this.char.next) {
-        return this.set_char(this.char.next);
-      }
-    };
-
     Cursor.prototype.move_left = function() {
       if (this.char.prev) {
         return this.set_char(this.char.prev);
+      }
+    };
+
+    Cursor.prototype.move_down = function(curr_task) {
+      var _parent;
+      if (curr_task.task_list.start !== null) {
+        return this.set_char(curr_task.task_list.start.char_list.end);
+      } else if (curr_task.next !== null) {
+        return this.set_char(curr_task.next.char_list.end);
+      } else {
+        _parent = curr_task.parent;
+        while (_parent !== null) {
+          if (_parent.next !== null) {
+            this.set_char(_parent.next.char_list.end);
+            return;
+          } else {
+            _parent = _parent.parent;
+          }
+        }
+      }
+    };
+
+    Cursor.prototype.move_up = function(curr_task) {
+      var prev_subtask;
+      if (curr_task.prev === null) {
+        if (curr_task.parent) {
+          this.set_char(curr_task.parent.char_list.end);
+        } else {
+          move_to_first();
+        }
+      } else {
+        prev_subtask = curr_task.prev;
+        while (prev_subtask.task_list.end !== null) {
+          prev_subtask = prev_subtask.task_list.end;
+        }
+        return this.set_char(prev_subtask.char_list.end);
+      }
+    };
+
+    Cursor.prototype.move_right = function() {
+      if (this.char.next) {
+        return this.set_char(this.char.next);
       }
     };
 

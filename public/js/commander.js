@@ -58,26 +58,26 @@
               case 'l':
                 mc.app.list.cursor.move_right();
                 break;
+              case 'a':
+                mc.app.list.toggle_command_mode();
+                break;
+              case 'i':
+                mc.app.list.toggle_command_mode();
+                break;
               case 'h':
                 mc.app.list.cursor.move_left();
+                break;
+              case 'j':
+                mc.app.list.cursor.move_down(task);
+                break;
+              case 'k':
+                mc.app.list.cursor.move_up(task);
                 break;
               case '$':
                 mc.app.list.cursor.move_to_last();
                 break;
               case '0':
                 mc.app.list.cursor.move_to_first();
-                break;
-              case 'k':
-                if (task.prev) {
-                  task.prev.set_cursor();
-                }
-                break;
-              case 'j':
-                if (task.task_list.to_array().length !== 0) {
-                  task.task_list.start.set_cursor();
-                } else if (task.next) {
-                  task.next.set_cursor();
-                }
                 break;
               case 'a':
                 mc.app.list.toggle_command_mode();

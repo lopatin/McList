@@ -51,19 +51,20 @@ mc.Commander =
 						# Movement
 						when 'l'
 							mc.app.list.cursor.move_right()
+						when 'a' 
+							mc.app.list.toggle_command_mode()
+						when 'i' 
+							mc.app.list.toggle_command_mode()
 						when 'h'
 							mc.app.list.cursor.move_left()
+						when 'j'
+							mc.app.list.cursor.move_down(task)
+						when 'k'
+							mc.app.list.cursor.move_up(task)
 						when '$'
 							mc.app.list.cursor.move_to_last()
 						when '0'
 							mc.app.list.cursor.move_to_first()
-						when 'k'
-							task.prev.set_cursor() if task.prev
-						when 'j'
-							if task.task_list.to_array().length != 0
-								task.task_list.start.set_cursor() 
-							else if task.next
-								task.next.set_cursor()
 
 						# Char operations
 						when 'a' 
