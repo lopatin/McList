@@ -6,7 +6,12 @@
 
   mc.Task = (function() {
 
-    function Task() {}
+    function Task(root) {
+      this.root = root;
+      this.char_list = new mc.charNodeList();
+    }
+
+    Task.prototype.render = function(recursive) {};
 
     return Task;
 

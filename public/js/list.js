@@ -12,6 +12,7 @@
       }
       this.command_mode = command_mode;
       this.element = $("#mainList");
+      this.root_task = new mc.Task(true);
     }
 
     List.prototype.enter_command_mode = function() {

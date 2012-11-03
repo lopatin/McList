@@ -6,7 +6,7 @@ class mc.CharNodeList
 		@start = @end = current
 		@length = 1
 
-	getSize = () ->
+	getSize: () ->
 		@length
 
 	addChar: (input) ->
@@ -22,5 +22,6 @@ class mc.CharNodeList
 
 		if @end.prev is null then @end.prev = @current
 		return
+
 
 
