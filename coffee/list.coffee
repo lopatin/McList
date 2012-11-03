@@ -5,10 +5,10 @@
 mc = McList
 
 class mc.List
-	constructor: (command_mode = true)->
-		@command_mode = command_mode
+	constructor: (@command_mode)->
 		@element = $("#mainList")
-		@root_task = new mc.Task(true)
+		@root_task = new mc.Task(null, this)
+		@update_status_bar()
 
 	enter_command_mode: ->
 		@command_mode = true

@@ -7,12 +7,10 @@
   mc.List = (function() {
 
     function List(command_mode) {
-      if (command_mode == null) {
-        command_mode = true;
-      }
       this.command_mode = command_mode;
       this.element = $("#mainList");
-      this.root_task = new mc.Task(true);
+      this.root_task = new mc.Task(null, this);
+      this.update_status_bar();
     }
 
     List.prototype.enter_command_mode = function() {
