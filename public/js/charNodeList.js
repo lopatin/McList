@@ -8,8 +8,8 @@
 
     function CharNodeList(task) {
       this.task = task;
-      this.current = new mc.CharNode(this);
-      this.start = this.end = this.current;
+      this.sentinel = new mc.CharNode(this);
+      this.start = this.end = this.sentinel;
       this.length = 1;
     }
 
@@ -18,21 +18,13 @@
     };
 
     CharNodeList.prototype.addChar = function(input) {
-      this.current = this.current.addAfter(input);
-      this.length++;
-      if (this.current.next === null) {
-        this.end = this.current;
-      }
+      this.task.list.cursor.set_char(this.task.list.cursor.char.addAfter(input));
+      return this.length++;
     };
 
     CharNodeList.prototype.deleteChar = function(node) {
-      if (this.end !== this.start) {
-        this.current = this.current.deleteNode(node);
-        length--;
-        if (this.current.next === null) {
-          this.end = this.current;
-        }
-      }
+      this.task.list.cursor.set_char(this.task.list.cursor.char.deleteNode());
+      return length--;
     };
 
     CharNodeList.prototype.to_array = function() {
@@ -44,6 +36,15 @@
         curr = curr.next;
       }
       return arr;
+    };
+
+    CharNodeList.prototype.is_empty = function() {
+      return this.start.character === null;
+    };
+
+    CharNodeList.prototype.empty = function() {
+      this.start = this.end = this.sentinel;
+      return this.task.list.cursor.set_char(this.sentinel);
     };
 
     return CharNodeList;
