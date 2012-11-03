@@ -17,10 +17,11 @@ class mc.CharNodeList
 		return
 
 	deleteChar: (node) ->
-		@current = @current.deleteNode(node)
-		length--
+		if end is not start
+			@current = @current.deleteNode(node)
+			length--
 
-		if @end.prev is null then @end.prev = @current
+			if @end.prev is null then @end.prev = @current
 		return
 
 	to_array: ->
