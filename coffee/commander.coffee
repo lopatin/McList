@@ -45,14 +45,14 @@ mc.Commander =
 					mc.app.list.toggle_command_mode()
 					self.key_queue = []
 			"[..., c, d]": ([c, d]) ->
+				_str = c + d
 				# If in command mode
 				if mc.app.list.command_mode
-					switch [c, d]
-						when ['d', 'd']
+					switch _str
+						when 'dd'
 							console.log("pizza")
 							task.deleteTask()
 							mc.app.list.cursor.move_down(task)
-
 			"[..., c]": (c) ->
 				# If in command mode
 				if mc.app.list.command_mode
@@ -86,18 +86,20 @@ mc.Commander =
 							mc.app.list.cursor.move_right()
 
 						# Task operations
-						when 'o', 'return'
+						when 'return'
 							task.parent.task_list.set_current task
 							task.parent.task_list.addTask() if task.parent
+						when 'o'
+							task.parent.task_list.set_current task
+							task.parent.task_list.addTask() if task.parent
+							mc.app.list.toggle_command_mode()
 						when 'tab'
 							if task.prev and task.parent
 								target_task = task.prev
 								task.parent.task_list.set_current task
 								deleted_task = task.parent.task_list.deleteTaskItem()
 								target_task.task_list.addTask deleted_task
-						when 'd'
-							task.parent.task_list.set_current task
-							task.parent.task_list.deleteTaskItem()
+
 
 				# If in insert mode
 				else
