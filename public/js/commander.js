@@ -43,7 +43,7 @@
     analyze_queue: function() {
       var charmap, self, task;
       self = this;
-      task = mc.app.list.root_task;
+      task = mc.app.list.cursor.char.char_list.task;
       charmap = matches.pattern({
         "[..., 'escape']": function() {
           if (!mc.app.list.command_mode) {
@@ -54,8 +54,15 @@
         "[..., c]": function(c) {
           if (mc.app.list.command_mode) {
             switch (c) {
+              case 'a':
+                mc.app.list.toggle_command_mode();
+                break;
               case 'i':
                 mc.app.list.toggle_command_mode();
+                mc.app.list.cursor.move_left();
+                break;
+              case 'o':
+                task.task_list.addTask();
                 break;
               case 'l':
                 mc.app.list.cursor.move_right();
@@ -68,11 +75,17 @@
                 break;
               case '0':
                 mc.app.list.cursor.move_to_first();
+                break;
+              case 'x':
+                task.char_list.deleteChar();
+                mc.app.list.cursor.move_right();
             }
           } else {
             switch (c) {
               case 'backspace':
                 task.char_list.deleteChar();
+                break;
+              case 'return':
                 break;
               default:
                 task.char_list.addChar(c);

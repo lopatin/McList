@@ -24,7 +24,7 @@
 
     CharNodeList.prototype.deleteChar = function(node) {
       this.task.list.cursor.set_char(this.task.list.cursor.char.deleteNode());
-      return length--;
+      return this.length--;
     };
 
     CharNodeList.prototype.to_array = function() {

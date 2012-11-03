@@ -9,12 +9,15 @@
     function Task(parent, list) {
       this.parent = parent;
       this.list = list;
+      this.next = this.prev = null;
       this.char_list = new mc.CharNodeList(this);
+      this.task_list = new mc.TaskList(this, this.list);
       this.element = $("<div>").addClass('task');
       this.content_div = $("<div>").addClass('content').appendTo(this.element);
-      this.children_div = $("<div>").addClass('chlidren').appendTo(this.element);
+      this.children_div = $("<div>").addClass('children').appendTo(this.element);
+      this.list.cursor.set_char(this.char_list.end);
       if (this.parent) {
-        this.parent.chlidren_div.append(this.element);
+        this.parent.children_div.append(this.element);
       } else {
         this.list.element.append(this.element);
       }
@@ -22,15 +25,57 @@
     }
 
     Task.prototype.render = function(recursive) {
-      var char, _i, _len, _ref, _results;
+      var char, task, _i, _j, _len, _len1, _ref, _ref1, _results;
       this.content_div.html('');
       _ref = this.char_list.to_array();
-      _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         char = _ref[_i];
-        _results.push(this.content_div.append(char.element));
+        this.content_div.append(char.element);
       }
-      return _results;
+      if (recursive) {
+        _ref1 = this.task_list.to_array();
+        _results = [];
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          task = _ref1[_j];
+          _results.push(task.render());
+        }
+        return _results;
+      }
+    };
+
+    Task.prototype.addTaskAfter = function() {
+      var temp, _task;
+      _task = new mc.Task(this.parent, this.list);
+      if (this.next === !null) {
+        temp = this.next;
+        _task.next = temp;
+        this.next = _task;
+        _task.prev = temp.prev;
+        temp.prev = _task;
+      } else {
+        _task.prev = this;
+        this.next = _task;
+      }
+      return _task;
+    };
+
+    Task.prototype.deleteTask = function() {
+      var temp;
+      if (this.next === !null) {
+        temp = this.next;
+        temp.prev = this.prev;
+        if (this.prev !== null) {
+          temp = this.prev;
+          temp.next = this.next;
+        }
+        this.next = this.prev = null;
+      } else {
+        if (this.prev !== null) {
+          temp = this.prev;
+          this.prev = temp.next = null;
+        }
+      }
+      return temp;
     };
 
     return Task;

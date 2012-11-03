@@ -38,7 +38,7 @@ mc.Commander =
 
 	analyze_queue: ->
 		self = this
-		task = mc.app.list.root_task
+		task = mc.app.list.cursor.char.char_list.task
 		charmap = matches.pattern
 			"[..., 'escape']": -> 
 				if !mc.app.list.command_mode
@@ -48,8 +48,12 @@ mc.Commander =
 				# If in command mode
 				if mc.app.list.command_mode
 					switch c
+						when 'a' 
+							mc.app.list.toggle_command_mode()
 						when 'i' 
 							mc.app.list.toggle_command_mode()
+						when 'o'
+							task.task_list.addTask()
 						when 'h'
 							mc.app.list.cursor.move_left()
 						when 'j'
@@ -62,12 +66,17 @@ mc.Commander =
 							mc.app.list.cursor.move_to_last()
 						when '0'
 							mc.app.list.cursor.move_to_first()
+						when 'x'
+							task.char_list.deleteChar()
+							mc.app.list.cursor.move_right()
 
 				# If in insert mode
 				else
 					switch c
 						when 'backspace' 
 							task.char_list.deleteChar()
+						when 'return'
+
 						else
 							task.char_list.addChar(c)
 				task.render()
