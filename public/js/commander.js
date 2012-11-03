@@ -52,6 +52,7 @@
           }
         },
         "[..., c]": function(c) {
+          var deleted_task, target_task;
           if (mc.app.list.command_mode) {
             switch (c) {
               case 'l':
@@ -85,7 +86,11 @@
                 break;
               case 'tab':
                 if (task.prev && task.parent) {
+                  target_task = task.prev;
                   task.parent.task_list.set_current(task);
+                  console.log(task.parent.task_list);
+                  deleted_task = task.parent.task_list.deleteTaskItem();
+                  target_task.task_list.addTask(deleted_task);
                 }
             }
           } else {

@@ -18,6 +18,9 @@ body {
       display: inline-block;
       font-size: 14px;
       width: 9px; }
+      .container #mainList .task .content .character.dot {
+        font-size: 40px;
+        font-weight: bold; }
     .container #mainList .task .children {
       padding: 0 0 0 20px; }
     .container #mainList.show-cursor .character.cursor {

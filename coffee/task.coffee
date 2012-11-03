@@ -57,7 +57,5 @@ class mc.Task
 				temp = @prev
 				@prev = temp.next = null
 
-		if return_deleted
-			this
-		else
-			temp
+		deleted: this
+		current: temp

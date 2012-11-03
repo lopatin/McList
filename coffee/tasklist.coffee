@@ -16,20 +16,21 @@ class mc.TaskList
 			@start = @end = @current = _task
 			@length++
 		else
-			@current = @current.addTaskAfter()
+			@current = @current.addTaskAfter(_task)
 
 		if @end.next != null then @end = @current
 		if @start.prev != null then @start = @current
 		return
 
-	deleteTaskItem: (return_deleted = null) ->
-		if end != start
-			@current = @current.deleteTask()
+	deleteTaskItem: () ->
+		if @end != @start
+			delete_returns = @current.deleteTask()
+			@current = delete_returns.current
 			@length--
 
 			if @end.prev is null then @end = @current
 			if @start.next is null then @start = @current
-		return
+		return delete_returns.deleted
 
 	to_array: () ->
 		arr = []

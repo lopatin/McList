@@ -21,7 +21,7 @@
         this.start = this.end = this.current = _task;
         this.length++;
       } else {
-        this.current = this.current.addTaskAfter();
+        this.current = this.current.addTaskAfter(_task);
       }
       if (this.end.next !== null) {
         this.end = this.current;
@@ -31,12 +31,11 @@
       }
     };
 
-    TaskList.prototype.deleteTaskItem = function(return_deleted) {
-      if (return_deleted == null) {
-        return_deleted = null;
-      }
-      if (end !== start) {
-        this.current = this.current.deleteTask();
+    TaskList.prototype.deleteTaskItem = function() {
+      var delete_returns;
+      if (this.end !== this.start) {
+        delete_returns = this.current.deleteTask();
+        this.current = delete_returns.current;
         this.length--;
         if (this.end.prev === null) {
           this.end = this.current;
@@ -45,6 +44,7 @@
           this.start = this.current;
         }
       }
+      return delete_returns.deleted;
     };
 
     TaskList.prototype.to_array = function() {

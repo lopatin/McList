@@ -73,7 +73,11 @@ mc.Commander =
 							task.parent.task_list.addTask() if task.parent
 						when 'tab'
 							if task.prev and task.parent
+								target_task = task.prev
 								task.parent.task_list.set_current task
+								console.log task.parent.task_list
+								deleted_task = task.parent.task_list.deleteTaskItem()
+								target_task.task_list.addTask deleted_task
 
 				# If in insert mode
 				else

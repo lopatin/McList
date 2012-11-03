@@ -77,11 +77,10 @@
           this.prev = temp.next = null;
         }
       }
-      if (return_deleted) {
-        return this;
-      } else {
-        return temp;
-      }
+      return {
+        deleted: this,
+        current: temp
+      };
     };
 
     return Task;
