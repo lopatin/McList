@@ -12,10 +12,10 @@ class mc.List
 		@cursor = new mc.Cursor(this)
 
 
-		# @root_task.char_list.addChar('a')
-		# @root_task.char_list.addChar('b')
-		# @root_task.char_list.addChar('c')
-		# @root_task.char_list.addChar('d')
+		# @root_task.char_list.addchar('a')
+		# @root_task.char_list.addchar('b')
+		# @root_task.char_list.addchar('c')
+		# @root_task.char_list.addchar('d')
 
 		@root_task.render()
 

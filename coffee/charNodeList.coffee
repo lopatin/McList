@@ -15,7 +15,7 @@ class mc.CharNodeList
 
 	deleteChar: (node) ->
 		@task.list.cursor.set_char @task.list.cursor.char.deleteNode()
-		length--
+		@length--
 
 	to_array: ->
 		arr = []

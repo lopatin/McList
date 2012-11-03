@@ -5,16 +5,18 @@
   mc = McList;
 
   mc.Task = (function() {
+    var temp, _task;
 
-    function Task(parent, list) {
-      this.parent = parent;
+    function Task(list) {
       this.list = list;
+      this.next = this.prev = null;
       this.char_list = new mc.CharNodeList(this);
+      this.task_list = new mc.TaskList(this, this.list);
       this.element = $("<div>").addClass('task');
       this.content_div = $("<div>").addClass('content').appendTo(this.element);
-      this.children_div = $("<div>").addClass('chlidren').appendTo(this.element);
+      this.children_div = $("<div>").addClass('children').appendTo(this.element);
       if (this.parent) {
-        this.parent.chlidren_div.append(this.element);
+        this.parent.children_div.append(this.element);
       } else {
         this.list.element.append(this.element);
       }
@@ -28,10 +30,60 @@
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         char = _ref[_i];
+        _results.push(this.content_div.append($("<div>").addClass('character').html(char.character)));
+      }
+      return _results;
+    };
+
+    Task.prototype.render = function(recursive) {
+      var char, _i, _len, _ref, _results;
+      this.content_div.html('');
+      _ref = this.char_list.to_array();
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        char = _ref[_i];
         _results.push(this.content_div.append(char.element));
       }
       return _results;
     };
+
+    Task.prototype.addTaskAfter = function() {};
+
+    _task = new mc.Task(Task.list);
+
+    if (Task.next === !null) {
+      temp = Task.next;
+      _task.next = temp;
+      Task.next = _task;
+      _task.prev = temp.prev;
+      temp.prev = _task;
+    } else {
+      _task.prev = Task;
+      Task.next = _task;
+    }
+
+    _task;
+
+
+    Task.prototype.deleteTask = function() {};
+
+    if (Task.next === !null) {
+      temp = Task.next;
+      temp.prev = Task.prev;
+      if (Task.prev !== null) {
+        temp = Task.prev;
+        temp.next = Task.next;
+      }
+      Task.next = Task.prev = null;
+    } else {
+      if (Task.prev !== null) {
+        temp = Task.prev;
+        Task.prev = temp.next = null;
+      }
+    }
+
+    temp;
+
 
     return Task;
 
