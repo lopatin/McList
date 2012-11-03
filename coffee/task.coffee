@@ -6,4 +6,8 @@
 mc = McList
 
 class mc.Task
-	constructor: ->
+	constructor: (@root) ->
+		@char_list = new mc.charNodeList()
+
+	render: (recursive) ->
+		

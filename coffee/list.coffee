@@ -8,6 +8,7 @@ class mc.List
 	constructor: (command_mode = true)->
 		@command_mode = command_mode
 		@element = $("#mainList")
+		@root_task = new mc.Task(true)
 
 	enter_command_mode: ->
 		@command_mode = true

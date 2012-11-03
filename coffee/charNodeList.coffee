@@ -6,14 +6,15 @@ class mc.CharNodeList
 		@start = @end = current
 		@length = 1
 
-	getSize = () ->
+	getSize: () ->
 		@length
 
-	addChar = (input) ->
+	addChar: (input) ->
 		@current = @current.addAfter(input)
 		@length++
 
 		if @end.next is not null
 			@end.next = @current
+
 
 
