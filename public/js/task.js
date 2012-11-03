@@ -43,9 +43,11 @@
       }
     };
 
-    Task.prototype.addTaskAfter = function() {
-      var temp, _task;
-      _task = new mc.Task(this.parent, this.list);
+    Task.prototype.addTaskAfter = function(_task) {
+      var temp;
+      if (!_task) {
+        _task = new mc.Task(this.parent, this.list);
+      }
       if (this.next === !null) {
         temp = this.next;
         _task.next = temp;
@@ -59,7 +61,7 @@
       return _task;
     };
 
-    Task.prototype.deleteTask = function() {
+    Task.prototype.deleteTask = function(return_deleted) {
       var temp;
       if (this.next === !null) {
         temp = this.next;
@@ -75,7 +77,11 @@
           this.prev = temp.next = null;
         }
       }
-      return temp;
+      if (return_deleted) {
+        return this;
+      } else {
+        return temp;
+      }
     };
 
     return Task;

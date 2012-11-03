@@ -54,16 +54,6 @@
         "[..., c]": function(c) {
           if (mc.app.list.command_mode) {
             switch (c) {
-              case 'a':
-                mc.app.list.toggle_command_mode();
-                break;
-              case 'i':
-                mc.app.list.toggle_command_mode();
-                mc.app.list.cursor.move_left();
-                break;
-              case 'o':
-                task.task_list.addTask();
-                break;
               case 'l':
                 mc.app.list.cursor.move_right();
                 break;
@@ -76,9 +66,27 @@
               case '0':
                 mc.app.list.cursor.move_to_first();
                 break;
+              case 'a':
+                mc.app.list.toggle_command_mode();
+                break;
+              case 'i':
+                mc.app.list.toggle_command_mode();
+                mc.app.list.cursor.move_left();
+                break;
               case 'x':
                 task.char_list.deleteChar();
                 mc.app.list.cursor.move_right();
+                break;
+              case 'o':
+              case 'return':
+                if (task.parent) {
+                  task.parent.task_list.addTask();
+                }
+                break;
+              case 'tab':
+                if (task.prev && task.parent) {
+                  task.parent.task_list.set_current(task);
+                }
             }
           } else {
             switch (c) {
@@ -86,6 +94,9 @@
                 task.char_list.deleteChar();
                 break;
               case 'return':
+                if (task.parent) {
+                  task.parent.task_list.addTask();
+                }
                 break;
               default:
                 task.char_list.addChar(c);

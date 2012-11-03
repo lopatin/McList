@@ -48,13 +48,7 @@ mc.Commander =
 				# If in command mode
 				if mc.app.list.command_mode
 					switch c
-						when 'a' 
-							mc.app.list.toggle_command_mode()
-						when 'i' 
-							mc.app.list.toggle_command_mode()
-							mc.app.list.cursor.move_left()
-						when 'o'
-							task.task_list.addTask()
+						# Movement
 						when 'l'
 							mc.app.list.cursor.move_right()
 						when 'h'
@@ -63,9 +57,23 @@ mc.Commander =
 							mc.app.list.cursor.move_to_last()
 						when '0'
 							mc.app.list.cursor.move_to_first()
+
+						# Char operations
+						when 'a' 
+							mc.app.list.toggle_command_mode()
+						when 'i' 
+							mc.app.list.toggle_command_mode()
+							mc.app.list.cursor.move_left()
 						when 'x'
 							task.char_list.deleteChar()
 							mc.app.list.cursor.move_right()
+
+						# Task operations
+						when 'o', 'return'
+							task.parent.task_list.addTask() if task.parent
+						when 'tab'
+							if task.prev and task.parent
+								task.parent.task_list.set_current task
 
 				# If in insert mode
 				else
@@ -73,7 +81,7 @@ mc.Commander =
 						when 'backspace' 
 							task.char_list.deleteChar()
 						when 'return'
-
+							task.parent.task_list.addTask() if task.parent
 						else
 							task.char_list.addChar(c)
 				task.render()

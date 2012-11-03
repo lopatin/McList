@@ -31,8 +31,8 @@ class mc.Task
 				task.render()
 
 
-	addTaskAfter: () ->
-		_task = new mc.Task @parent, @list
+	addTaskAfter: (_task) ->
+		_task = new mc.Task @parent, @list if !_task
 		if @next is not null
 			temp = @next
 			_task.next = temp
@@ -44,7 +44,7 @@ class mc.Task
 			@next = _task
 		_task
 
-	deleteTask: () ->
+	deleteTask: (return_deleted) ->
 		if @next is not null
 			temp = @next
 			temp.prev = @prev
@@ -56,4 +56,8 @@ class mc.Task
 			if @prev != null
 				temp = @prev
 				@prev = temp.next = null
-		temp
+
+		if return_deleted
+			this
+		else
+			temp

@@ -11,6 +11,7 @@
       this.element = $("#mainList");
       this.cursor = new mc.Cursor(this);
       this.root_task = new mc.Task(null, this);
+      this.root_task.task_list.addTask();
       this.update_status_bar();
       this.root_task.render();
       this.blink_in_second();

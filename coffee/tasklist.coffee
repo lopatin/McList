@@ -10,9 +10,9 @@ class mc.TaskList
 		@start = @end = @current = null
 		@length = 0
 
-	addTask: () ->
+	addTask: (_task) ->
 		if @current is null
-			_task = new mc.Task @parent, @list
+			_task = new mc.Task @parent, @list if !_task
 			@start = @end = @current = _task
 			@length++
 		else
@@ -22,7 +22,7 @@ class mc.TaskList
 		if @start.prev != null then @start = @current
 		return
 
-	deleteTaskItem: () ->
+	deleteTaskItem: (return_deleted = null) ->
 		if end != start
 			@current = @current.deleteTask()
 			@length--
@@ -38,3 +38,6 @@ class mc.TaskList
 			arr.push curr
 			curr = curr.next
 		arr
+
+	set_current: (curr) ->
+		@current = curr

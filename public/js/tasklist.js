@@ -13,10 +13,11 @@
       this.length = 0;
     }
 
-    TaskList.prototype.addTask = function() {
-      var _task;
+    TaskList.prototype.addTask = function(_task) {
       if (this.current === null) {
-        _task = new mc.Task(this.parent, this.list);
+        if (!_task) {
+          _task = new mc.Task(this.parent, this.list);
+        }
         this.start = this.end = this.current = _task;
         this.length++;
       } else {
@@ -30,7 +31,10 @@
       }
     };
 
-    TaskList.prototype.deleteTaskItem = function() {
+    TaskList.prototype.deleteTaskItem = function(return_deleted) {
+      if (return_deleted == null) {
+        return_deleted = null;
+      }
       if (end !== start) {
         this.current = this.current.deleteTask();
         this.length--;
@@ -52,6 +56,10 @@
         curr = curr.next;
       }
       return arr;
+    };
+
+    TaskList.prototype.set_current = function(curr) {
+      return this.current = curr;
     };
 
     return TaskList;
