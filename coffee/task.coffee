@@ -30,10 +30,11 @@ class mc.Task
 			)(char, @list, @content_div)
 
 		@children_div.html ''
+		console.log 'rendering ' + @to_string()
 		if recursive
 			for task in @task_list.to_array()
 				@children_div.append task.element
-				task.render()
+				task.render(true)
 
 
 	addTaskAfter: (_task) ->
@@ -69,3 +70,6 @@ class mc.Task
 
 	set_cursor: ->
 		@list.cursor.set_char @char_list.end
+
+	to_string: ->
+		@char_list.to_string()

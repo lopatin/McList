@@ -37,13 +37,14 @@
         _fn(char, this.list, this.content_div);
       }
       this.children_div.html('');
+      console.log('rendering ' + this.to_string());
       if (recursive) {
         _ref1 = this.task_list.to_array();
         _results = [];
         for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
           task = _ref1[_j];
           this.children_div.append(task.element);
-          _results.push(task.render());
+          _results.push(task.render(true));
         }
         return _results;
       }
@@ -92,6 +93,10 @@
 
     Task.prototype.set_cursor = function() {
       return this.list.cursor.set_char(this.char_list.end);
+    };
+
+    Task.prototype.to_string = function() {
+      return this.char_list.to_string();
     };
 
     return Task;

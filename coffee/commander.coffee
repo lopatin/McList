@@ -79,10 +79,11 @@ mc.Commander =
 						# Task operations
 						when 'o', 'return'
 							task.parent.task_list.set_current task
-							task.parent.task_list.addTask() if task.parent
+							task.task_list.addTask() if task.parent
 						when 'tab'
 							if task.prev and task.parent
 								target_task = task.prev
+								console.log "target_task " + target_task.to_string() 
 								task.parent.task_list.set_current task
 								console.log task.parent.task_list
 								deleted_task = task.parent.task_list.deleteTaskItem()

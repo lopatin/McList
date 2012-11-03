@@ -94,12 +94,13 @@
               case 'return':
                 task.parent.task_list.set_current(task);
                 if (task.parent) {
-                  task.parent.task_list.addTask();
+                  task.task_list.addTask();
                 }
                 break;
               case 'tab':
                 if (task.prev && task.parent) {
                   target_task = task.prev;
+                  console.log("target_task " + target_task.to_string());
                   task.parent.task_list.set_current(task);
                   console.log(task.parent.task_list);
                   deleted_task = task.parent.task_list.deleteTaskItem();
