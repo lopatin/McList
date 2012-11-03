@@ -11,6 +11,7 @@
       this.element = $("#mainList");
       this.root_task = new mc.Task(null, this);
       this.update_status_bar();
+      this.cursor = new mc.Cursor(this);
     }
 
     List.prototype.enter_command_mode = function() {

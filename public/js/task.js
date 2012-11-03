@@ -9,7 +9,7 @@
     function Task(parent, list) {
       this.parent = parent;
       this.list = list;
-      this.char_list = new mc.CharNodeList();
+      this.char_list = new mc.CharNodeList(this);
       this.char_list.addChar('a');
       this.char_list.addChar('b');
       this.char_list.addChar('c');

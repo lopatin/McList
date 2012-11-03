@@ -21,6 +21,7 @@ mc.Commander =
 		$(document).bind 'keydown', (e) ->
 			keyval = mc.KeyCodeHelper.get_key_value e
 			self.keystroke keyval
+			false
 
 	init_special_modes: (event, value) ->
 		$(document).bind event, (e) ->
@@ -37,8 +38,28 @@ mc.Commander =
 
 	analyze_queue: ->
 		self = this
+		task = mc.app.list.root_task
 		charmap = matches.pattern
-			"['escape']": -> 
-				mc.app.list.toggle_command_mode()
+			"[..., 'escape']": -> 
+				if !mc.app.list.command_mode
+					mc.app.list.toggle_command_mode()
+					self.key_queue = []
+			"[..., c]": (c) ->
+				# If in command mode
+				if mc.app.list.command_mode
+					switch c
+						when 'i' 
+							mc.app.list.toggle_command_mode()
+
+				# If in insert mode
+				else
+					switch c
+						when 'backspace' 
+							task.char_list.deleteChar()
+						else
+							task.char_list.addChar(c)
+				task.render()
 				self.key_queue = []
+
+
 		charmap(@key_queue)

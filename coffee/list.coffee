@@ -9,6 +9,7 @@ class mc.List
 		@element = $("#mainList")
 		@root_task = new mc.Task(null, this)
 		@update_status_bar()
+		@cursor = new mc.Cursor(this)
 
 	enter_command_mode: ->
 		@command_mode = true

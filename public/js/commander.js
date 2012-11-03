@@ -17,7 +17,8 @@
       return $(document).bind('keydown', function(e) {
         var keyval;
         keyval = mc.KeyCodeHelper.get_key_value(e);
-        return self.keystroke(keyval);
+        self.keystroke(keyval);
+        return false;
       });
     },
     init_special_modes: function(event, value) {
@@ -40,11 +41,32 @@
       return console.log(this.key_queue);
     },
     analyze_queue: function() {
-      var charmap, self;
+      var charmap, self, task;
       self = this;
+      task = mc.app.list.root_task;
       charmap = matches.pattern({
-        "['escape']": function() {
-          mc.app.list.toggle_command_mode();
+        "[..., 'escape']": function() {
+          if (!mc.app.list.command_mode) {
+            mc.app.list.toggle_command_mode();
+            return self.key_queue = [];
+          }
+        },
+        "[..., c]": function(c) {
+          if (mc.app.list.command_mode) {
+            switch (c) {
+              case 'i':
+                mc.app.list.toggle_command_mode();
+            }
+          } else {
+            switch (c) {
+              case 'backspace':
+                task.char_list.deleteChar();
+                break;
+              default:
+                task.char_list.addChar(c);
+            }
+          }
+          task.render();
           return self.key_queue = [];
         }
       });

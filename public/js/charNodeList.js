@@ -6,7 +6,8 @@
 
   mc.CharNodeList = (function() {
 
-    function CharNodeList() {
+    function CharNodeList(task) {
+      this.task = task;
       this.current = new mc.CharNode;
       this.start = this.end = this.current;
       this.length = 1;

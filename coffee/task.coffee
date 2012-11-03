@@ -7,7 +7,7 @@ mc = McList
 
 class mc.Task
 	constructor: (@parent, @list) ->
-		@char_list = new mc.CharNodeList()
+		@char_list = new mc.CharNodeList(this)
 		@char_list.addChar('a')
 		@char_list.addChar('b')
 		@char_list.addChar('c')

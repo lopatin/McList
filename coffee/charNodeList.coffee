@@ -1,7 +1,7 @@
 mc = McList
 
 class mc.CharNodeList
-	constructor: () ->
+	constructor: (@task) ->
 		@current = new mc.CharNode   # cursor
 		@start = @end = @current
 		@length = 1

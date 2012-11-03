@@ -13,4 +13,6 @@ class mc.Mclist
 # Run the app 
 #
 
-mc.app = new mc.Mclist()
+$( ->
+	mc.app = new mc.Mclist()
+)

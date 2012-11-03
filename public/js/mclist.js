@@ -15,6 +15,8 @@
 
   })();
 
-  mc.app = new mc.Mclist();
+  $(function() {
+    return mc.app = new mc.Mclist();
+  });
 
 }).call(this);
