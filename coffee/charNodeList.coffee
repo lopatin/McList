@@ -13,8 +13,15 @@ class mc.CharNodeList
 		@current = @current.addAfter(input)
 		@length++
 
-		if @end.next is not null
-			@end.next = @current
+		if @end.next is not null then @end.next = @current
+		return
+
+	deleteChar: (node) ->
+		@current = @current.deleteNode(node)
+		length--
+
+		if @end.prev is null then @end.prev = @current
+		return
 
 	to_array: ->
 		arr = []

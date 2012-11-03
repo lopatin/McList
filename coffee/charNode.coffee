@@ -2,8 +2,7 @@ mc = McList
 
 class mc.CharNode
 	constructor: (@character) ->
-    	@next = null
-    	@prev = null
+    	@next = @prev = null
 
     addAfter: (input) ->
     	_char = new mc.CharNode input
@@ -20,6 +19,17 @@ class mc.CharNode
 
     	_char
 
+    deleteNode: (node) ->
+		if @next is not null
+			temp = @next
+			temp.prev = @prev
+			temp = @prev
+			temp.next = @next
+			@next = @prev = null
+		else
+			temp = @prev
+			@prev = temp.next = null
+		temp
 
 
 
