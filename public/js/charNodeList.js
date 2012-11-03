@@ -26,10 +26,12 @@
     };
 
     CharNodeList.prototype.deleteChar = function(node) {
-      this.current = this.current.deleteNode(node);
-      length--;
-      if (this.end.prev === null) {
-        this.end.prev = this.current;
+      if (end === !start) {
+        this.current = this.current.deleteNode(node);
+        length--;
+        if (this.end.prev === null) {
+          this.end.prev = this.current;
+        }
       }
     };
 
