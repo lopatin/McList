@@ -8,12 +8,13 @@
 
     function Mclist() {
       this.list = new mc.List();
+      mc.Commander.init();
     }
 
     return Mclist;
 
   })();
 
-  mc.app = new mc.Mclist;
+  mc.app = new mc.Mclist();
 
 }).call(this);

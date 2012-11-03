@@ -10,8 +10,8 @@ class mc.List
 
 	enter_command_mode: ->
 		@command_mode = true
-		$("#status").addClass('command_mode');
+		$("#status").addClass 'command_mode'
 
 	enter_insert_mode: ->
 		@command_mode = false
-		$("#status").addClass('insert_mode');
+		$("#status").addClass 'insert_mode'
