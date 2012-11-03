@@ -9,6 +9,7 @@ class mc.List
 		@element = $("#mainList")
 		@cursor = new mc.Cursor(this)
 		@root_task = new mc.Task(null, this)
+		@root_task.task_list.addTask()
 		@update_status_bar()
 
 

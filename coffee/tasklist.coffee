@@ -10,26 +10,31 @@ class mc.TaskList
 		@start = @end = @current = null
 		@length = 0
 
-	addTask: () ->
+	addTask: (_task) ->
+		if _task
+			console.log _task.char_list.to_string()
+			console.log "belongs to " + _task.parent.char_list.to_string()
 		if @current is null
-			_task = new mc.Task @parent, @list
+			_task = new mc.Task @parent, @list if !_task
 			@start = @end = @current = _task
 			@length++
 		else
-			@current = @current.addTaskAfter(@parent)
+			_task.parent = @parent if _task
+			@current = @current.addTaskAfter(_task)
 
 		if @end.next != null then @end = @current
 		if @start.prev != null then @start = @current
 		return
 
 	deleteTaskItem: () ->
-		if end != start
-			@current = @current.deleteTask()
+		if @end != @start
+			delete_return = @current.deleteTask()
+			@current = delete_return.current
 			@length--
 
 			if @end.prev is null then @end = @current
 			if @start.next is null then @start = @current
-		return
+			return delete_return.deleted
 
 	to_array: () ->
 		arr = []
@@ -38,3 +43,6 @@ class mc.TaskList
 			arr.push curr
 			curr = curr.next
 		arr
+
+	set_current: (curr) ->
+		@current = curr

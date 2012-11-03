@@ -57,27 +57,47 @@ mc.Commander =
 				# If in command mode
 				if mc.app.list.command_mode
 					switch c
+						# Movement
+						when 'l'
+							mc.app.list.cursor.move_right()
 						when 'a' 
 							mc.app.list.toggle_command_mode()
 						when 'i' 
 							mc.app.list.toggle_command_mode()
-						when 'o'
-							task.task_list.addTask()
 						when 'h'
 							mc.app.list.cursor.move_left()
 						when 'j'
 							mc.app.list.cursor.move_down(task)
 						when 'k'
 							mc.app.list.cursor.move_up(task)
-						when 'l'
-							mc.app.list.cursor.move_right()
 						when '$'
 							mc.app.list.cursor.move_to_last()
 						when '0'
 							mc.app.list.cursor.move_to_first()
+
+						# Char operations
+						when 'a' 
+							mc.app.list.toggle_command_mode()
+						when 'i' 
+							mc.app.list.toggle_command_mode()
+							mc.app.list.cursor.move_left()
 						when 'x'
 							task.char_list.deleteChar()
 							mc.app.list.cursor.move_right()
+
+						# Task operations
+						when 'o', 'return'
+							task.parent.task_list.set_current task
+							task.parent.task_list.addTask() if task.parent
+						when 'tab'
+							if task.prev and task.parent
+								target_task = task.prev
+								task.parent.task_list.set_current task
+								deleted_task = task.parent.task_list.deleteTaskItem()
+								target_task.task_list.addTask deleted_task
+						when 'd'
+							task.parent.task_list.set_current task
+							task.parent.task_list.deleteTaskItem()
 
 				# If in insert mode
 				else
@@ -85,10 +105,10 @@ mc.Commander =
 						when 'backspace' 
 							task.char_list.deleteChar()
 						when 'return'
-
+							task.parent.task_list.addTask() if task.parent
 						else
-							task.char_list.addChar(c)
-				task.render()
+							task.char_list.addChar(c) unless c.length > 1
+				mc.app.list.root_task.render(true)
 				mc.app.list.blink_in_second()
 				self.key_queue = []
 
