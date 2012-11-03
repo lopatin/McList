@@ -9,9 +9,9 @@
     function List(command_mode) {
       this.command_mode = command_mode;
       this.element = $("#mainList");
+      this.cursor = new mc.Cursor(this);
       this.root_task = new mc.Task(null, this);
       this.update_status_bar();
-      this.cursor = new mc.Cursor(this);
       this.root_task.render();
       this.blink_in_second();
     }

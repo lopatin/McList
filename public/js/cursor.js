@@ -8,7 +8,6 @@
 
     function Cursor(list) {
       this.list = list;
-      this.set_char(this.list.first_char());
     }
 
     Cursor.prototype.set_char = function(new_char) {

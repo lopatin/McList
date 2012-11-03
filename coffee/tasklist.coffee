@@ -12,7 +12,7 @@ class mc.TaskList
 
 	addTask: () ->
 		if @current is null
-			_task = new mc.Task @list
+			_task = new mc.Task @parent, @list
 			@start = @end = @current = _task
 			@length++
 		else
@@ -30,3 +30,11 @@ class mc.TaskList
 			if @end.prev is null then @end = @current
 			if @start.next is null then @start = @current
 		return
+
+	to_array: () ->
+		arr = []
+		curr = @start
+		while curr
+			arr.push curr
+			curr = curr.next
+		arr

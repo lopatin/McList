@@ -6,7 +6,6 @@ mc = McList
 
 class mc.Cursor
 	constructor: (@list) ->
-		@set_char @list.first_char()
 
 	set_char: (new_char) ->
 		@char.element.removeClass('cursor') if @char

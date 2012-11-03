@@ -13,10 +13,14 @@ body
     font-family: "Courier New", Arial
     h1
       color: blue
-    .character
-      display: inline-block
-      font-size: 14px
-      width: 9px
+    .task
+      .content
+        .character
+          display: inline-block
+          font-size: 14px
+          width: 9px
+      .children
+        padding: 0 0 0 20px
     &.show-cursor
       .character.cursor
         box-shadow: inset -1px 0 0 #555
