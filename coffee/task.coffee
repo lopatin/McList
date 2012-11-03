@@ -27,5 +27,5 @@ class mc.Task
 	render: (recursive) ->
 		@content_div.html('')
 		for char in @char_list.to_array()
-			@content_div.append $("<div>").addClass('character').html(char.character)
+			@content_div.append char.element
 

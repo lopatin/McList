@@ -11,6 +11,8 @@ class mc.List
 		@update_status_bar()
 		@cursor = new mc.Cursor(this)
 
+		@blink_in_second()
+
 	enter_command_mode: ->
 		@command_mode = true
 		@update_status_bar()
@@ -26,5 +28,18 @@ class mc.List
 	update_status_bar: ->
 		if @command_mode
 			$("#status").addClass 'command_mode'
+			@element.addClass 'command_mode'
 		else
 			$("#status").removeClass 'command_mode'
+			@element.removeClass 'command_mode'
+
+	first_char: ->
+		@root_task.char_list.start
+
+	blink_in_second: ->
+		clearInterval @cursor_timer if @cursor_timer
+		@element.addClass 'show-cursor'
+		self = this
+		@cursor_timer = setInterval ->
+			self.element.toggleClass 'show-cursor'
+		, 500

@@ -6,14 +6,16 @@
 
   mc.CharNode = (function() {
 
-    function CharNode(character) {
-      this.character = character;
+    function CharNode(char_list, character) {
+      this.char_list = char_list;
+      this.character = character != null ? character : '&nbsp;';
       this.next = this.prev = null;
+      this.element = $("<div>").addClass('character').html(this.character);
     }
 
     CharNode.prototype.addAfter = function(input) {
       var temp, _char;
-      _char = new mc.CharNode(input);
+      _char = new mc.CharNode(this.char_list, input);
       if (this.next === !null) {
         temp = this.next;
         _char.next = temp;

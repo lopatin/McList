@@ -2,7 +2,7 @@ mc = McList
 
 class mc.CharNodeList
 	constructor: (@task) ->
-		@current = new mc.CharNode   # cursor
+		@current = new mc.CharNode this   # cursor
 		@start = @end = @current
 		@length = 1
 
@@ -13,15 +13,15 @@ class mc.CharNodeList
 		@current = @current.addAfter(input)
 		@length++
 
-		if @end.next is not null then @end.next = @current
+		if @current.next is null then @end = @current
 		return
 
 	deleteChar: (node) ->
-		if end is not start
+		if @end != @start
 			@current = @current.deleteNode(node)
 			length--
 
-			if @end.prev is null then @end.prev = @current
+			if @current.next is null then @end = @current
 		return
 
 	to_array: ->

@@ -12,6 +12,7 @@
       this.root_task = new mc.Task(null, this);
       this.update_status_bar();
       this.cursor = new mc.Cursor(this);
+      this.blink_in_second();
     }
 
     List.prototype.enter_command_mode = function() {
@@ -31,10 +32,28 @@
 
     List.prototype.update_status_bar = function() {
       if (this.command_mode) {
-        return $("#status").addClass('command_mode');
+        $("#status").addClass('command_mode');
+        return this.element.addClass('command_mode');
       } else {
-        return $("#status").removeClass('command_mode');
+        $("#status").removeClass('command_mode');
+        return this.element.removeClass('command_mode');
       }
+    };
+
+    List.prototype.first_char = function() {
+      return this.root_task.char_list.start;
+    };
+
+    List.prototype.blink_in_second = function() {
+      var self;
+      if (this.cursor_timer) {
+        clearInterval(this.cursor_timer);
+      }
+      this.element.addClass('show-cursor');
+      self = this;
+      return this.cursor_timer = setInterval(function() {
+        return self.element.toggleClass('show-cursor');
+      }, 500);
     };
 
     return List;

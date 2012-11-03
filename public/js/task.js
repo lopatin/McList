@@ -32,7 +32,7 @@
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         char = _ref[_i];
-        _results.push(this.content_div.append($("<div>").addClass('character').html(char.character)));
+        _results.push(this.content_div.append(char.element));
       }
       return _results;
     };

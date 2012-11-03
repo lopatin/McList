@@ -8,7 +8,7 @@
 
     function CharNodeList(task) {
       this.task = task;
-      this.current = new mc.CharNode;
+      this.current = new mc.CharNode(this);
       this.start = this.end = this.current;
       this.length = 1;
     }
@@ -20,17 +20,17 @@
     CharNodeList.prototype.addChar = function(input) {
       this.current = this.current.addAfter(input);
       this.length++;
-      if (this.end.next === !null) {
-        this.end.next = this.current;
+      if (this.current.next === null) {
+        this.end = this.current;
       }
     };
 
     CharNodeList.prototype.deleteChar = function(node) {
-      if (end === !start) {
+      if (this.end !== this.start) {
         this.current = this.current.deleteNode(node);
         length--;
-        if (this.end.prev === null) {
-          this.end.prev = this.current;
+        if (this.current.next === null) {
+          this.end = this.current;
         }
       }
     };

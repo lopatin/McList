@@ -19,9 +19,9 @@ mc.Commander =
 
 		self = this
 		$(document).bind 'keydown', (e) ->
+			e.preventDefault()
 			keyval = mc.KeyCodeHelper.get_key_value e
 			self.keystroke keyval
-			false
 
 	init_special_modes: (event, value) ->
 		$(document).bind event, (e) ->
@@ -50,6 +50,14 @@ mc.Commander =
 					switch c
 						when 'i' 
 							mc.app.list.toggle_command_mode()
+						when 'l'
+							mc.app.list.cursor.move_right()
+						when 'h'
+							mc.app.list.cursor.move_left()
+						when '$'
+							mc.app.list.cursor.move_to_last()
+						when '0'
+							mc.app.list.cursor.move_to_first()
 
 				# If in insert mode
 				else
@@ -59,6 +67,7 @@ mc.Commander =
 						else
 							task.char_list.addChar(c)
 				task.render()
+				mc.app.list.blink_in_second()
 				self.key_queue = []
 
 

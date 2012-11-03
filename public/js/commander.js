@@ -16,9 +16,9 @@
       self = this;
       return $(document).bind('keydown', function(e) {
         var keyval;
+        e.preventDefault();
         keyval = mc.KeyCodeHelper.get_key_value(e);
-        self.keystroke(keyval);
-        return false;
+        return self.keystroke(keyval);
       });
     },
     init_special_modes: function(event, value) {
@@ -56,6 +56,18 @@
             switch (c) {
               case 'i':
                 mc.app.list.toggle_command_mode();
+                break;
+              case 'l':
+                mc.app.list.cursor.move_right();
+                break;
+              case 'h':
+                mc.app.list.cursor.move_left();
+                break;
+              case '$':
+                mc.app.list.cursor.move_to_last();
+                break;
+              case '0':
+                mc.app.list.cursor.move_to_first();
             }
           } else {
             switch (c) {
@@ -67,6 +79,7 @@
             }
           }
           task.render();
+          mc.app.list.blink_in_second();
           return self.key_queue = [];
         }
       });
