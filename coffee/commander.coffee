@@ -50,10 +50,14 @@ mc.Commander =
 					switch c
 						when 'i' 
 							mc.app.list.toggle_command_mode()
-						when 'l'
-							mc.app.list.cursor.move_right()
 						when 'h'
 							mc.app.list.cursor.move_left()
+						when 'j'
+							mc.app.list.cursor.move_down()
+						when 'k'
+							mc.app.list.cursor.move_up()
+						when 'l'
+							mc.app.list.cursor.move_right()
 						when '$'
 							mc.app.list.cursor.move_to_last()
 						when '0'

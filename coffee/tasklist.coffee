@@ -12,11 +12,11 @@ class mc.TaskList
 
 	addTask: () ->
 		if @current is null
-			_task = new mc.Task @list
+			_task = new mc.Task @parent, @list
 			@start = @end = @current = _task
 			@length++
 		else
-			@current = @current.addTaskAfter()
+			@current = @current.addTaskAfter(@parent)
 
 		if @end.next != null then @end = @current
 		if @start.prev != null then @start = @current

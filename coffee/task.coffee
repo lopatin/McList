@@ -6,7 +6,7 @@
 mc = McList
 
 class mc.Task
-    constructor: (@list) ->
+    constructor: (@parent, @list) ->
 	@next = @prev = null
 	@char_list = new mc.CharNodeList(@)
 	@task_list = new mc.TaskList(@, @list)
@@ -29,8 +29,8 @@ class mc.Task
 	for char in @char_list.to_array()
 	    @content_div.append char.element
 
-    addTaskAfter: () ->
-	_task = new mc.Task @list
+    addTaskAfter: (parent) ->
+	_task = new mc.Task parent, @list
 	if @next is not null
 	    temp = @next
 	    _task.next = temp
