@@ -49,7 +49,7 @@
         if (curr_task.parent) {
           this.set_char(curr_task.parent.char_list.end);
         } else {
-          move_to_first();
+          this.set_char(curr_task.char_list.start);
         }
       } else {
         prev_subtask = curr_task.prev;

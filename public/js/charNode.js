@@ -10,7 +10,7 @@
       this.char_list = char_list;
       this.character = character != null ? character : null;
       this.next = this.prev = null;
-      this.element = $("<div>").addClass('character').html(!this.character || this.character === ' ' ? "&nbsp;" : this.character);
+      this.element = $("<div>").addClass('character ' + (!this.character ? "sentinel" : "")).html(!this.character || this.character === ' ' ? "&nbsp;" : this.character);
     }
 
     CharNode.prototype.addAfter = function(input) {

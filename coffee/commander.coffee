@@ -31,7 +31,7 @@ mc.Commander =
 				when 18 then mc.Commander.alt_mode = value
 
 	keystroke: (key) ->
-		if key
+		if key and key != 'shift' and key != 'ctrl' and key != 'alt'
 			@key_queue.push key
 		@analyze_queue()
 		console.log @key_queue
@@ -39,21 +39,31 @@ mc.Commander =
 	analyze_queue: ->
 		self = this
 		task = mc.app.list.cursor.char.char_list.task
+		shift_mode = @shift_mode
 		charmap = matches.pattern
 			"[..., 'escape']": -> 
 				if !mc.app.list.command_mode
 					mc.app.list.toggle_command_mode()
 					self.key_queue = []
-			"[..., c, d]": ([c, d]) ->
-				# If in command mode
-				if mc.app.list.command_mode
-					switch [c, d]
-						when ['d', 'd']
-							console.log("pizza")
-							task.deleteTask()
-							mc.app.list.cursor.move_down(task)
+
+
+			# "[..., c, d]": ([c, d]) ->
+			# 	# If in command mode
+			# 	if mc.app.list.command_mode
+			# 		switch [c, d]
+			# 			when ['d', 'd']
+			# 				console.log("pizza")
+			# 				task.deleteTask()
+			# 				mc.app.list.cursor.move_down(task)
 
 			"[..., c]": (c) ->
+				if c == 'tab' and task.prev and task.parent
+					target_task = task.prev
+					task.parent.task_list.set_current task
+					deleted_task = task.parent.task_list.deleteTaskItem()
+					target_task.task_list.addTask deleted_task
+					task.set_cursor()
+
 				# If in command mode
 				if mc.app.list.command_mode
 					switch c
@@ -64,6 +74,7 @@ mc.Commander =
 							mc.app.list.toggle_command_mode()
 						when 'i' 
 							mc.app.list.toggle_command_mode()
+							mc.app.list.cursor.move_left()
 						when 'h'
 							mc.app.list.cursor.move_left()
 						when 'j'
@@ -87,17 +98,16 @@ mc.Commander =
 
 						# Task operations
 						when 'o', 'return'
-							task.parent.task_list.set_current task
-							task.parent.task_list.addTask() if task.parent
-						when 'tab'
-							if task.prev and task.parent
-								target_task = task.prev
+							unless task.char_list.is_empty()
 								task.parent.task_list.set_current task
-								deleted_task = task.parent.task_list.deleteTaskItem()
-								target_task.task_list.addTask deleted_task
+								if task.parent
+									new_task = task.parent.task_list.addTask() 
+									new_task.set_cursor()
+
 						when 'd'
 							task.parent.task_list.set_current task
 							task.parent.task_list.deleteTaskItem()
+							mc.app.list.cursor.move_down(task)
 
 				# If in insert mode
 				else
@@ -105,12 +115,16 @@ mc.Commander =
 						when 'backspace' 
 							task.char_list.deleteChar()
 						when 'return'
-							task.parent.task_list.addTask() if task.parent
+							unless task.char_list.is_empty()
+								# task.parent.task_list.set_current task
+								task.parent.task_list.addTask() if task.parent
 						else
 							task.char_list.addChar(c) unless c.length > 1
+
 				mc.app.list.root_task.render(true)
 				mc.app.list.blink_in_second()
 				self.key_queue = []
+
 
 
 		charmap(@key_queue)

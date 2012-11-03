@@ -3,7 +3,7 @@ mc = McList
 class mc.CharNode
 	constructor: (@char_list, @character = null) ->
 		@next = @prev = null
-		@element = $("<div>").addClass('character').html(if !@character or @character == ' ' then "&nbsp;" else @character)
+		@element = $("<div>").addClass('character ' + (if !@character then "sentinel" else "")).html(if !@character or @character == ' ' then "&nbsp;" else @character)
 
 	addAfter: (input) ->
 		_char = new mc.CharNode @char_list, input

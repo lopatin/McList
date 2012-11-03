@@ -24,7 +24,7 @@ class mc.TaskList
 
 		if @end.next != null then @end = @current
 		if @start.prev != null then @start = @current
-		return
+		return _task
 
 	deleteTaskItem: () ->
 		if @end != @start

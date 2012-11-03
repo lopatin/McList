@@ -25,6 +25,8 @@ body {
       padding: 0 0 0 20px; }
     .container #mainList.show-cursor .character.cursor {
       box-shadow: inset -1px 0 0 #555555; }
+      .container #mainList.show-cursor .character.cursor.sentinel {
+        box-shadow: inset 1px 0 0 #555555; }
     .container #mainList.show-cursor.command_mode .character.cursor {
       background-color: #555555;
       color: white; }

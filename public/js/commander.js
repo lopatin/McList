@@ -34,16 +34,17 @@
       });
     },
     keystroke: function(key) {
-      if (key) {
+      if (key && key !== 'shift' && key !== 'ctrl' && key !== 'alt') {
         this.key_queue.push(key);
       }
       this.analyze_queue();
       return console.log(this.key_queue);
     },
     analyze_queue: function() {
-      var charmap, self, task;
+      var charmap, self, shift_mode, task;
       self = this;
       task = mc.app.list.cursor.char.char_list.task;
+      shift_mode = this.shift_mode;
       charmap = matches.pattern({
         "[..., 'escape']": function() {
           if (!mc.app.list.command_mode) {
@@ -51,20 +52,15 @@
             return self.key_queue = [];
           }
         },
-        "[..., c, d]": function(_arg) {
-          var c, d;
-          c = _arg[0], d = _arg[1];
-          if (mc.app.list.command_mode) {
-            switch ([c, d]) {
-              case ['d', 'd']:
-                console.log("pizza");
-                task.deleteTask();
-                return mc.app.list.cursor.move_down(task);
-            }
-          }
-        },
         "[..., c]": function(c) {
-          var deleted_task, target_task;
+          var deleted_task, new_task, target_task;
+          if (c === 'tab' && task.prev && task.parent) {
+            target_task = task.prev;
+            task.parent.task_list.set_current(task);
+            deleted_task = task.parent.task_list.deleteTaskItem();
+            target_task.task_list.addTask(deleted_task);
+            task.set_cursor();
+          }
           if (mc.app.list.command_mode) {
             switch (c) {
               case 'l':
@@ -75,6 +71,7 @@
                 break;
               case 'i':
                 mc.app.list.toggle_command_mode();
+                mc.app.list.cursor.move_left();
                 break;
               case 'h':
                 mc.app.list.cursor.move_left();
@@ -104,22 +101,18 @@
                 break;
               case 'o':
               case 'return':
-                task.parent.task_list.set_current(task);
-                if (task.parent) {
-                  task.parent.task_list.addTask();
-                }
-                break;
-              case 'tab':
-                if (task.prev && task.parent) {
-                  target_task = task.prev;
+                if (!task.char_list.is_empty()) {
                   task.parent.task_list.set_current(task);
-                  deleted_task = task.parent.task_list.deleteTaskItem();
-                  target_task.task_list.addTask(deleted_task);
+                  if (task.parent) {
+                    new_task = task.parent.task_list.addTask();
+                    new_task.set_cursor();
+                  }
                 }
                 break;
               case 'd':
                 task.parent.task_list.set_current(task);
                 task.parent.task_list.deleteTaskItem();
+                mc.app.list.cursor.move_down(task);
             }
           } else {
             switch (c) {
@@ -127,8 +120,10 @@
                 task.char_list.deleteChar();
                 break;
               case 'return':
-                if (task.parent) {
-                  task.parent.task_list.addTask();
+                if (!task.char_list.is_empty()) {
+                  if (task.parent) {
+                    task.parent.task_list.addTask();
+                  }
                 }
                 break;
               default:

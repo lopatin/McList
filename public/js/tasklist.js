@@ -36,6 +36,7 @@
       if (this.start.prev !== null) {
         this.start = this.current;
       }
+      return _task;
     };
 
     TaskList.prototype.deleteTaskItem = function() {

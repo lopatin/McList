@@ -37,7 +37,6 @@
         _fn(char, this.list, this.content_div);
       }
       this.children_div.html('');
-      console.log('rendering ' + this.to_string());
       if (recursive) {
         _ref1 = this.task_list.to_array();
         _results = [];
@@ -55,6 +54,7 @@
       if (!_task) {
         _task = new mc.Task(this.parent, this.list);
       }
+      _task.parent = this.parent;
       if (this.next !== null) {
         temp = this.next;
         _task.next = temp;

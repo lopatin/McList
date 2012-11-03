@@ -30,7 +30,6 @@ class mc.Task
 			)(char, @list, @content_div)
 
 		@children_div.html ''
-		console.log 'rendering ' + @to_string()
 		if recursive
 			for task in @task_list.to_array()
 				@children_div.append task.element
@@ -39,6 +38,7 @@ class mc.Task
 
 	addTaskAfter: (_task) ->
 		if !_task then _task = new mc.Task @parent, @list
+		_task.parent = @parent
 		if @next != null
 			temp = @next
 			_task.next = temp
