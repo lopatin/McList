@@ -20,7 +20,15 @@
       this.current = this.current.addAfter(input);
       this.length++;
       if (this.end.next === !null) {
-        return this.end.next = this.current;
+        this.end.next = this.current;
+      }
+    };
+
+    CharNodeList.prototype.deleteChar = function(node) {
+      this.current = this.current.deleteNode(node);
+      length--;
+      if (this.end.prev === null) {
+        this.end.prev = this.current;
       }
     };
 

@@ -5,11 +5,11 @@
   mc = McList;
 
   mc.CharNode = (function() {
+    var temp;
 
     function CharNode(character) {
       this.character = character;
-      this.next = null;
-      this.prev = null;
+      this.next = this.prev = null;
     }
 
     CharNode.prototype.addAfter = function(input) {
@@ -27,6 +27,22 @@
       }
       return _char;
     };
+
+    CharNode.prototype.deleteNode = function(node) {};
+
+    if (CharNode.next === !null) {
+      temp = CharNode.next;
+      temp.prev = CharNode.prev;
+      temp = CharNode.prev;
+      temp.next = CharNode.next;
+      CharNode.next = CharNode.prev = null;
+    } else {
+      temp = CharNode.prev;
+      CharNode.prev = temp.next = null;
+    }
+
+    temp;
+
 
     return CharNode;
 
