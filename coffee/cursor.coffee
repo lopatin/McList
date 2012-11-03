@@ -12,7 +12,6 @@ class mc.Cursor
 		@char.element.removeClass('cursor') if @char
 		@char = new_char
 		@char.element.addClass('cursor')
-		@char.char_list.current = @char
 
 	move_right: ->
 		@set_char @char.next if @char.next

@@ -68,11 +68,17 @@
                 break;
               case '0':
                 mc.app.list.cursor.move_to_first();
+                break;
+              case 'x':
+                task.char_list.deleteChar();
+                mc.app.list.cursor.move_right();
             }
           } else {
             switch (c) {
               case 'backspace':
                 task.char_list.deleteChar();
+                break;
+              case 'return':
                 break;
               default:
                 task.char_list.addChar(c);

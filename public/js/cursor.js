@@ -16,8 +16,7 @@
         this.char.element.removeClass('cursor');
       }
       this.char = new_char;
-      this.char.element.addClass('cursor');
-      return this.char.char_list.current = this.char;
+      return this.char.element.addClass('cursor');
     };
 
     Cursor.prototype.move_right = function() {

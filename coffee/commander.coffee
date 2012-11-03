@@ -58,12 +58,17 @@ mc.Commander =
 							mc.app.list.cursor.move_to_last()
 						when '0'
 							mc.app.list.cursor.move_to_first()
+						when 'x'
+							task.char_list.deleteChar()
+							mc.app.list.cursor.move_right()
 
 				# If in insert mode
 				else
 					switch c
 						when 'backspace' 
 							task.char_list.deleteChar()
+						when 'return'
+
 						else
 							task.char_list.addChar(c)
 				task.render()
