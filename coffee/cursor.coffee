@@ -31,7 +31,7 @@ class mc.Cursor
 	move_up: (curr_task) ->
 		if curr_task.prev is null
 			if curr_task.parent then @set_char curr_task.parent.char_list.end
-			else move_to_first()
+			else @set_char curr_task.char_list.start
 			return
 		else
 			prev_subtask = curr_task.prev
