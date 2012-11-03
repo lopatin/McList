@@ -19,7 +19,7 @@ body {
       font-size: 14px;
       width: 9px; }
     .container #mainList.show-cursor .character.cursor {
-      box-shadow: inset 1px 0 0 #555555; }
+      box-shadow: inset -1px 0 0 #555555; }
     .container #mainList.show-cursor.command_mode .character.cursor {
       background-color: #555555;
       color: white; }

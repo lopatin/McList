@@ -2,27 +2,20 @@ mc = McList
 
 class mc.CharNodeList
 	constructor: (@task) ->
-		@current = new mc.CharNode this   # cursor
-		@start = @end = @current
+		@sentinel = new mc.CharNode this   # cursor
+		@start = @end = @sentinel
 		@length = 1
 
 	getSize: () ->
 		@length
 
 	addChar: (input) ->
-		@current = @current.addAfter(input)
+		@task.list.cursor.set_char @task.list.cursor.char.addAfter(input)
 		@length++
 
-		if @current.next is null then @end = @current
-		return
-
 	deleteChar: (node) ->
-		if @end != @start
-			@current = @current.deleteNode(node)
-			length--
-
-			if @current.next is null then @end = @current
-		return
+		@task.list.cursor.set_char @task.list.cursor.char.deleteNode()
+		length--
 
 	to_array: ->
 		arr = []
@@ -31,3 +24,10 @@ class mc.CharNodeList
 			arr.push curr
 			curr = curr.next
 		arr
+
+	is_empty: ->
+		@start.character == null
+
+	empty: ->
+		@start = @end = @sentinel
+		@task.list.cursor.set_char @sentinel

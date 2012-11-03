@@ -11,6 +11,14 @@ class mc.List
 		@update_status_bar()
 		@cursor = new mc.Cursor(this)
 
+
+		# @root_task.char_list.addChar('a')
+		# @root_task.char_list.addChar('b')
+		# @root_task.char_list.addChar('c')
+		# @root_task.char_list.addChar('d')
+
+		@root_task.render()
+
 		@blink_in_second()
 
 	enter_command_mode: ->

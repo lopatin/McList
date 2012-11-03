@@ -10,10 +10,6 @@
       this.parent = parent;
       this.list = list;
       this.char_list = new mc.CharNodeList(this);
-      this.char_list.addChar('a');
-      this.char_list.addChar('b');
-      this.char_list.addChar('c');
-      this.char_list.addChar('d');
       this.element = $("<div>").addClass('task');
       this.content_div = $("<div>").addClass('content').appendTo(this.element);
       this.children_div = $("<div>").addClass('chlidren').appendTo(this.element);

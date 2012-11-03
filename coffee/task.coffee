@@ -55,4 +55,3 @@ class mc.Task
 		temp = @prev
 		@prev = temp.next = null
 	temp
-

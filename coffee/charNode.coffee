@@ -1,27 +1,35 @@
 mc = McList
 
 class mc.CharNode
-	constructor: (@char_list, @character = '&nbsp;') ->
+	constructor: (@char_list, @character = null) ->
 		@next = @prev = null
-		@element = $("<div>").addClass('character').html(@character)
+		@element = $("<div>").addClass('character').html(if !@character or @character == ' ' then "&nbsp;" else @character)
 
 	addAfter: (input) ->
 		_char = new mc.CharNode @char_list, input
 
-		if @next is not null
+		if @char_list.is_empty()
+			console.log 'empty'
+			@char_list.start = @char_list.end = _char
+			_char.next = _char.prev = null
+		else if @next
 			temp = @next
 			_char.next = temp
 			@next = _char
-			_char.prev = temp.prev
 			temp.prev = _char
+			_char.prev = this
 		else
-			_char.prev = @
 			@next = _char
+			@char_list.end = _char
+			_char.prev = this
 
 		_char
 
-	deleteNode: (node) ->
-		if @next is not null
+	deleteNode: ->
+		if @next == null and @prev == null
+			@char_list.empty()
+			return @char_list.sentinel
+		else if @next
 			temp = @next
 			temp.prev = @prev
 			temp = @prev
@@ -31,3 +39,4 @@ class mc.CharNode
 			temp = @prev
 			@prev = temp.next = null
 		temp
+		

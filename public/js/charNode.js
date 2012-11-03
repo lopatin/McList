@@ -8,30 +8,38 @@
 
     function CharNode(char_list, character) {
       this.char_list = char_list;
-      this.character = character != null ? character : '&nbsp;';
+      this.character = character != null ? character : null;
       this.next = this.prev = null;
-      this.element = $("<div>").addClass('character').html(this.character);
+      this.element = $("<div>").addClass('character').html(!this.character || this.character === ' ' ? "&nbsp;" : this.character);
     }
 
     CharNode.prototype.addAfter = function(input) {
       var temp, _char;
       _char = new mc.CharNode(this.char_list, input);
-      if (this.next === !null) {
+      if (this.char_list.is_empty()) {
+        console.log('empty');
+        this.char_list.start = this.char_list.end = _char;
+        _char.next = _char.prev = null;
+      } else if (this.next) {
         temp = this.next;
         _char.next = temp;
         this.next = _char;
-        _char.prev = temp.prev;
         temp.prev = _char;
-      } else {
         _char.prev = this;
+      } else {
         this.next = _char;
+        this.char_list.end = _char;
+        _char.prev = this;
       }
       return _char;
     };
 
-    CharNode.prototype.deleteNode = function(node) {
+    CharNode.prototype.deleteNode = function() {
       var temp;
-      if (this.next === !null) {
+      if (this.next === null && this.prev === null) {
+        this.char_list.empty();
+        return this.char_list.sentinel;
+      } else if (this.next) {
         temp = this.next;
         temp.prev = this.prev;
         temp = this.prev;
