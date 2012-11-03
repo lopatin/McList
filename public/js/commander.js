@@ -10,14 +10,14 @@
     alt_mode: false,
     key_queue: [],
     init: function() {
-      var that;
+      var self;
       this.init_special_modes('keydown', true);
       this.init_special_modes('keyup', false);
-      that = this;
+      self = this;
       return $(document).bind('keydown', function(e) {
         var keyval;
         keyval = mc.KeyCodeHelper.get_key_value(e);
-        return that.keystroke(keyval);
+        return self.keystroke(keyval);
       });
     },
     init_special_modes: function(event, value) {
@@ -33,8 +33,22 @@
       });
     },
     keystroke: function(key) {
-      this.key_queue.push(key);
+      if (key) {
+        this.key_queue.push(key);
+      }
+      this.analyze_queue();
       return console.log(this.key_queue);
+    },
+    analyze_queue: function() {
+      var charmap, self;
+      self = this;
+      charmap = matches.pattern({
+        "['escape']": function() {
+          mc.app.list.toggle_command_mode();
+          return self.key_queue = [];
+        }
+      });
+      return charmap(this.key_queue);
     }
   };
 

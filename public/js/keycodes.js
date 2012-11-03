@@ -24,7 +24,6 @@
       } else {
         value = this.keyCodeMap[keyCode];
       }
-      console.log(value);
       return value;
     },
     get_key_value: function(e) {

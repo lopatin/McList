@@ -21,7 +21,6 @@ mc.KeyCodeHelper =
             value = @modifiedByShift[keyCode]
         else
             value = @keyCodeMap[keyCode]
-        console.log value
         return value
 
     #

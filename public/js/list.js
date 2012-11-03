@@ -11,16 +11,30 @@
         command_mode = true;
       }
       this.command_mode = command_mode;
+      this.element = $("#mainList");
     }
 
     List.prototype.enter_command_mode = function() {
       this.command_mode = true;
-      return $("#status").addClass('command_mode');
+      return this.update_status_bar();
     };
 
     List.prototype.enter_insert_mode = function() {
       this.command_mode = false;
-      return $("#status").addClass('insert_mode');
+      return this.update_status_bar();
+    };
+
+    List.prototype.toggle_command_mode = function() {
+      this.command_mode = !this.command_mode;
+      return this.update_status_bar();
+    };
+
+    List.prototype.update_status_bar = function() {
+      if (this.command_mode) {
+        return $("#status").addClass('command_mode');
+      } else {
+        return $("#status").removeClass('command_mode');
+      }
     };
 
     return List;
