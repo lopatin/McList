@@ -20,17 +20,13 @@ class mc.CharNode
     	_char
 
     deleteNode: (node) ->
-		if @next is not null
-			temp = @next
-			temp.prev = @prev
-			temp = @prev
-			temp.next = @next
-			@next = @prev = null
-		else
-			temp = @prev
-			@prev = temp.next = null
-		temp
-
-
-
-
+        if @next is not null
+            temp = @next
+            temp.prev = @prev
+            temp = @prev
+            temp.next = @next
+            @next = @prev = null
+        else
+            temp = @prev
+            @prev = temp.next = null
+        temp

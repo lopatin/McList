@@ -5,7 +5,6 @@
   mc = McList;
 
   mc.CharNode = (function() {
-    var temp;
 
     function CharNode(character) {
       this.character = character;
@@ -28,21 +27,20 @@
       return _char;
     };
 
-    CharNode.prototype.deleteNode = function(node) {};
-
-    if (CharNode.next === !null) {
-      temp = CharNode.next;
-      temp.prev = CharNode.prev;
-      temp = CharNode.prev;
-      temp.next = CharNode.next;
-      CharNode.next = CharNode.prev = null;
-    } else {
-      temp = CharNode.prev;
-      CharNode.prev = temp.next = null;
-    }
-
-    temp;
-
+    CharNode.prototype.deleteNode = function(node) {
+      var temp;
+      if (this.next === !null) {
+        temp = this.next;
+        temp.prev = this.prev;
+        temp = this.prev;
+        temp.next = this.next;
+        this.next = this.prev = null;
+      } else {
+        temp = this.prev;
+        this.prev = temp.next = null;
+      }
+      return temp;
+    };
 
     return CharNode;
 
