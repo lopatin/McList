@@ -94,15 +94,13 @@
               case 'return':
                 task.parent.task_list.set_current(task);
                 if (task.parent) {
-                  task.task_list.addTask();
+                  task.parent.task_list.addTask();
                 }
                 break;
               case 'tab':
                 if (task.prev && task.parent) {
                   target_task = task.prev;
-                  console.log("target_task " + target_task.to_string());
                   task.parent.task_list.set_current(task);
-                  console.log(task.parent.task_list);
                   deleted_task = task.parent.task_list.deleteTaskItem();
                   target_task.task_list.addTask(deleted_task);
                 }
@@ -122,7 +120,9 @@
                 }
                 break;
               default:
-                task.char_list.addChar(c);
+                if (!(c.length > 1)) {
+                  task.char_list.addChar(c);
+                }
             }
           }
           mc.app.list.root_task.render(true);

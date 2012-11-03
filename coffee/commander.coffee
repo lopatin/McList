@@ -79,13 +79,11 @@ mc.Commander =
 						# Task operations
 						when 'o', 'return'
 							task.parent.task_list.set_current task
-							task.task_list.addTask() if task.parent
+							task.parent.task_list.addTask() if task.parent
 						when 'tab'
 							if task.prev and task.parent
 								target_task = task.prev
-								console.log "target_task " + target_task.to_string() 
 								task.parent.task_list.set_current task
-								console.log task.parent.task_list
 								deleted_task = task.parent.task_list.deleteTaskItem()
 								target_task.task_list.addTask deleted_task
 						when 'd'
@@ -100,7 +98,7 @@ mc.Commander =
 						when 'return'
 							task.parent.task_list.addTask() if task.parent
 						else
-							task.char_list.addChar(c)
+							task.char_list.addChar(c) unless c.length > 1
 				mc.app.list.root_task.render(true)
 				mc.app.list.blink_in_second()
 				self.key_queue = []
