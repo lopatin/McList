@@ -52,11 +52,12 @@
           }
         },
         "[..., c, d]": function(_arg) {
-          var c, d;
+          var c, d, _str;
           c = _arg[0], d = _arg[1];
+          _str = c + d;
           if (mc.app.list.command_mode) {
-            switch ([c, d]) {
-              case ['d', 'd']:
+            switch (_str) {
+              case 'dd':
                 console.log("pizza");
                 task.deleteTask();
                 return mc.app.list.cursor.move_down(task);
@@ -102,12 +103,18 @@
                 task.char_list.deleteChar();
                 mc.app.list.cursor.move_right();
                 break;
-              case 'o':
               case 'return':
                 task.parent.task_list.set_current(task);
                 if (task.parent) {
                   task.parent.task_list.addTask();
                 }
+                break;
+              case 'o':
+                task.parent.task_list.set_current(task);
+                if (task.parent) {
+                  task.parent.task_list.addTask();
+                }
+                mc.app.list.toggle_command_mode();
                 break;
               case 'tab':
                 if (task.prev && task.parent) {
@@ -116,10 +123,6 @@
                   deleted_task = task.parent.task_list.deleteTaskItem();
                   target_task.task_list.addTask(deleted_task);
                 }
-                break;
-              case 'd':
-                task.parent.task_list.set_current(task);
-                task.parent.task_list.deleteTaskItem();
             }
           } else {
             switch (c) {
