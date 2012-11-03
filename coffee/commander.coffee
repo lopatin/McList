@@ -44,6 +44,15 @@ mc.Commander =
 				if !mc.app.list.command_mode
 					mc.app.list.toggle_command_mode()
 					self.key_queue = []
+			"[..., c, d]": ([c, d]) ->
+				# If in command mode
+				if mc.app.list.command_mode
+					switch [c, d]
+						when ['d', 'd']
+							console.log("pizza")
+							task.deleteTask()
+							mc.app.list.cursor.move_down(task)
+
 			"[..., c]": (c) ->
 				# If in command mode
 				if mc.app.list.command_mode
