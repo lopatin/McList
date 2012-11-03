@@ -14,6 +14,10 @@
     }
 
     TaskList.prototype.addTask = function(_task) {
+      if (_task) {
+        console.log(_task.char_list.to_string());
+        console.log("belongs to " + _task.parent.char_list.to_string());
+      }
       if (this.current === null) {
         if (!_task) {
           _task = new mc.Task(this.parent, this.list);
@@ -21,6 +25,9 @@
         this.start = this.end = this.current = _task;
         this.length++;
       } else {
+        if (_task) {
+          _task.parent = this.parent;
+        }
         this.current = this.current.addTaskAfter(_task);
       }
       if (this.end.next !== null) {
@@ -32,10 +39,10 @@
     };
 
     TaskList.prototype.deleteTaskItem = function() {
-      var delete_returns;
+      var delete_return;
       if (this.end !== this.start) {
-        delete_returns = this.current.deleteTask();
-        this.current = delete_returns.current;
+        delete_return = this.current.deleteTask();
+        this.current = delete_return.current;
         this.length--;
         if (this.end.prev === null) {
           this.end = this.current;
@@ -43,8 +50,8 @@
         if (this.start.next === null) {
           this.start = this.current;
         }
+        return delete_return.deleted;
       }
-      return delete_returns.deleted;
     };
 
     TaskList.prototype.to_array = function() {

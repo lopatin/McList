@@ -57,6 +57,13 @@ mc.Commander =
 							mc.app.list.cursor.move_to_last()
 						when '0'
 							mc.app.list.cursor.move_to_first()
+						when 'k'
+							task.prev.set_cursor() if task.prev
+						when 'j'
+							if task.task_list.to_array().length != 0
+								task.task_list.start.set_cursor() 
+							else if task.next
+								task.next.set_cursor()
 
 						# Char operations
 						when 'a' 
@@ -70,6 +77,7 @@ mc.Commander =
 
 						# Task operations
 						when 'o', 'return'
+							task.parent.task_list.set_current task
 							task.parent.task_list.addTask() if task.parent
 						when 'tab'
 							if task.prev and task.parent
@@ -78,6 +86,9 @@ mc.Commander =
 								console.log task.parent.task_list
 								deleted_task = task.parent.task_list.deleteTaskItem()
 								target_task.task_list.addTask deleted_task
+						when 'd'
+							task.parent.task_list.set_current task
+							task.parent.task_list.deleteTaskItem()
 
 				# If in insert mode
 				else
@@ -88,7 +99,7 @@ mc.Commander =
 							task.parent.task_list.addTask() if task.parent
 						else
 							task.char_list.addChar(c)
-				task.render()
+				mc.app.list.root_task.render(true)
 				mc.app.list.blink_in_second()
 				self.key_queue = []
 

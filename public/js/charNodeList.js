@@ -38,6 +38,17 @@
       return arr;
     };
 
+    CharNodeList.prototype.to_string = function() {
+      var char, str, _i, _len, _ref;
+      str = "";
+      _ref = this.to_array();
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        char = _ref[_i];
+        str += char.character;
+      }
+      return str;
+    };
+
     CharNodeList.prototype.is_empty = function() {
       return this.start.character === null;
     };

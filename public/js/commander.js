@@ -67,6 +67,18 @@
               case '0':
                 mc.app.list.cursor.move_to_first();
                 break;
+              case 'k':
+                if (task.prev) {
+                  task.prev.set_cursor();
+                }
+                break;
+              case 'j':
+                if (task.task_list.to_array().length !== 0) {
+                  task.task_list.start.set_cursor();
+                } else if (task.next) {
+                  task.next.set_cursor();
+                }
+                break;
               case 'a':
                 mc.app.list.toggle_command_mode();
                 break;
@@ -80,6 +92,7 @@
                 break;
               case 'o':
               case 'return':
+                task.parent.task_list.set_current(task);
                 if (task.parent) {
                   task.parent.task_list.addTask();
                 }
@@ -92,6 +105,10 @@
                   deleted_task = task.parent.task_list.deleteTaskItem();
                   target_task.task_list.addTask(deleted_task);
                 }
+                break;
+              case 'd':
+                task.parent.task_list.set_current(task);
+                task.parent.task_list.deleteTaskItem();
             }
           } else {
             switch (c) {
@@ -107,7 +124,7 @@
                 task.char_list.addChar(c);
             }
           }
-          task.render();
+          mc.app.list.root_task.render(true);
           mc.app.list.blink_in_second();
           return self.key_queue = [];
         }

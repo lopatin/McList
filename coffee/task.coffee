@@ -16,24 +16,29 @@ class mc.Task
 
 		@list.cursor.set_char @char_list.end
 
-		if @parent then @parent.children_div.append @element
-		else @list.element.append @element
+		if !@parent then @list.element.append @element
 
 		@render()
 	
 	render: (recursive) ->
 		@content_div.html ''
 		for char in @char_list.to_array()
-			@content_div.append char.element
+			# Render characters and bind events
+			((char, list, content_div) ->
+				content_div.append char.element
+				char.element.click(() -> list.cursor.set_char char)
+			)(char, @list, @content_div)
 
+		@children_div.html ''
 		if recursive
 			for task in @task_list.to_array()
+				@children_div.append task.element
 				task.render()
 
 
 	addTaskAfter: (_task) ->
-		_task = new mc.Task @parent, @list if !_task
-		if @next is not null
+		if !_task then _task = new mc.Task @parent, @list
+		if @next != null
 			temp = @next
 			_task.next = temp
 			@next = _task
@@ -44,8 +49,8 @@ class mc.Task
 			@next = _task
 		_task
 
-	deleteTask: (return_deleted) ->
-		if @next is not null
+	deleteTask: ->
+		if @next != null
 			temp = @next
 			temp.prev = @prev
 			if @prev != null
@@ -57,5 +62,10 @@ class mc.Task
 				temp = @prev
 				@prev = temp.next = null
 
-		deleted: this
+		temp.set_cursor()
+
+		deleted: this,
 		current: temp
+
+	set_cursor: ->
+		@list.cursor.set_char @char_list.end

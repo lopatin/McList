@@ -25,6 +25,12 @@ class mc.CharNodeList
 			curr = curr.next
 		arr
 
+	to_string: ->
+		str = ""
+		for char in @to_array()
+			str += char.character
+		str
+
 	is_empty: ->
 		@start.character == null
 
