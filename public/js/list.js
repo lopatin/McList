@@ -11,9 +11,11 @@
       this.element = $("#mainList");
       this.cursor = new mc.Cursor(this);
       this.root_task = new mc.Task(null, this);
-      this.root_task.task_list.addTask();
+      console.log("adding to last child of root task");
+      console.log(this.root_task.last_child);
+      this.root_task.last_child.add_task();
       this.update_status_bar();
-      this.root_task.render();
+      this.render();
       this.blink_in_second();
     }
 
@@ -30,6 +32,12 @@
     List.prototype.toggle_command_mode = function() {
       this.command_mode = !this.command_mode;
       return this.update_status_bar();
+    };
+
+    List.prototype.render = function() {
+      if (this.root_task) {
+        return this.root_task.render(true);
+      }
     };
 
     List.prototype.update_status_bar = function() {

@@ -16,8 +16,13 @@ body {
       color: blue; }
     .container #mainList .task .content .character {
       display: inline-block;
-      font-size: 14px;
-      width: 9px; }
+      font-size: 13px;
+      text-align: center;
+      width: 9px;
+      transition: background-color 0.05s;
+      -webkit-transition: background-color 0.05s; }
+      .container #mainList .task .content .character:hover {
+        background-color: #eeeeee; }
       .container #mainList .task .content .character.dot {
         font-size: 40px;
         font-weight: bold; }

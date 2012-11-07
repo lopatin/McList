@@ -9,16 +9,12 @@ class mc.List
 		@element = $("#mainList")
 		@cursor = new mc.Cursor(this)
 		@root_task = new mc.Task(null, this)
-		@root_task.task_list.addTask()
+		console.log "adding to last child of root task"
+		console.log @root_task.last_child
+		@root_task.last_child.add_task()
 		@update_status_bar()
 
-
-		# @root_task.char_list.addchar('a')
-		# @root_task.char_list.addchar('b')
-		# @root_task.char_list.addchar('c')
-		# @root_task.char_list.addchar('d')
-
-		@root_task.render()
+		@render()
 
 		@blink_in_second()
 
@@ -33,6 +29,9 @@ class mc.List
 	toggle_command_mode: ->
 		@command_mode = !@command_mode
 		@update_status_bar()
+
+	render: ->
+		@root_task.render(true) if @root_task
 
 	update_status_bar: ->
 		if @command_mode

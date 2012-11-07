@@ -52,6 +52,10 @@
       return temp;
     };
 
+    CharNode.prototype.task = function() {
+      return this.char_list.task;
+    };
+
     return CharNode;
 
   })();

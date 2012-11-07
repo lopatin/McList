@@ -53,19 +53,12 @@
           }
         },
         "[..., c]": function(c) {
-          var deleted_task, new_task, target_task;
+          var new_task;
           if (c === 'tab' && task.prev && task.parent) {
-            target_task = task.prev;
-            task.parent.task_list.set_current(task);
-            deleted_task = task.parent.task_list.deleteTaskItem();
-            target_task.task_list.addTask(deleted_task);
-            task.set_cursor();
+            task["delete"]().prev.last_child.add_task(task).set_cursor();
           }
           if (mc.app.list.command_mode) {
             switch (c) {
-              case 'l':
-                mc.app.list.cursor.move_right();
-                break;
               case 'a':
                 mc.app.list.toggle_command_mode();
                 break;
@@ -73,14 +66,22 @@
                 mc.app.list.toggle_command_mode();
                 mc.app.list.cursor.move_left();
                 break;
+              case 'l':
+              case 'right':
+                mc.app.list.cursor.move_right();
+                break;
               case 'h':
+              case 'left':
                 mc.app.list.cursor.move_left();
                 break;
               case 'j':
-                mc.app.list.cursor.move_down(task);
+              case 'return':
+              case 'down':
+                mc.app.list.cursor.move_down();
                 break;
               case 'k':
-                mc.app.list.cursor.move_up(task);
+              case 'up':
+                mc.app.list.cursor.move_up();
                 break;
               case '$':
                 mc.app.list.cursor.move_to_last();
@@ -100,30 +101,31 @@
                 mc.app.list.cursor.move_right();
                 break;
               case 'o':
-              case 'return':
-                if (!task.char_list.is_empty()) {
-                  task.parent.task_list.set_current(task);
-                  if (task.parent) {
-                    new_task = task.parent.task_list.addTask();
-                    new_task.set_cursor();
-                  }
+                if (!task.char_list.is_empty() && task.parent) {
+                  new_task = task.add_task();
+                  mc.app.list.enter_insert_mode();
                 }
                 break;
               case 'd':
-                task.parent.task_list.set_current(task);
-                task.parent.task_list.deleteTaskItem();
-                mc.app.list.cursor.move_down(task);
+                if (task.next) {
+                  mc.app.list.cursor.move_down();
+                } else {
+                  mc.app.list.cursor.move_up();
+                }
+                task["delete"]();
             }
           } else {
             switch (c) {
               case 'backspace':
-                task.char_list.deleteChar();
+                if (mc.app.list.cursor.char.prev === null) {
+                  task["delete"]().parent.add_task(task).set_cursor();
+                } else {
+                  task.char_list.deleteChar();
+                }
                 break;
               case 'return':
                 if (!task.char_list.is_empty()) {
-                  if (task.parent) {
-                    task.parent.task_list.addTask();
-                  }
+                  task.add_task();
                 }
                 break;
               default:

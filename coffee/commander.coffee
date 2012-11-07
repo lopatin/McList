@@ -58,29 +58,25 @@ mc.Commander =
 
 			"[..., c]": (c) ->
 				if c == 'tab' and task.prev and task.parent
-					target_task = task.prev
-					task.parent.task_list.set_current task
-					deleted_task = task.parent.task_list.deleteTaskItem()
-					target_task.task_list.addTask deleted_task
-					task.set_cursor()
+					task.delete().prev.last_child.add_task(task).set_cursor()
 
 				# If in command mode
 				if mc.app.list.command_mode
 					switch c
 						# Movement
-						when 'l'
-							mc.app.list.cursor.move_right()
 						when 'a' 
 							mc.app.list.toggle_command_mode()
 						when 'i' 
 							mc.app.list.toggle_command_mode()
 							mc.app.list.cursor.move_left()
-						when 'h'
+						when 'l', 'right'
+							mc.app.list.cursor.move_right()
+						when 'h', 'left'
 							mc.app.list.cursor.move_left()
-						when 'j'
-							mc.app.list.cursor.move_down(task)
-						when 'k'
-							mc.app.list.cursor.move_up(task)
+						when 'j', 'return', 'down'
+							mc.app.list.cursor.move_down()
+						when 'k', 'up'
+							mc.app.list.cursor.move_up()
 						when '$'
 							mc.app.list.cursor.move_to_last()
 						when '0'
@@ -97,27 +93,27 @@ mc.Commander =
 							mc.app.list.cursor.move_right()
 
 						# Task operations
-						when 'o', 'return'
-							unless task.char_list.is_empty()
-								task.parent.task_list.set_current task
-								if task.parent
-									new_task = task.parent.task_list.addTask() 
-									new_task.set_cursor()
+						when 'o'
+							if !task.char_list.is_empty() and task.parent
+								new_task = task.add_task()
+								mc.app.list.enter_insert_mode()
 
 						when 'd'
-							task.parent.task_list.set_current task
-							task.parent.task_list.deleteTaskItem()
-							mc.app.list.cursor.move_down(task)
+							if task.next then mc.app.list.cursor.move_down()
+							else mc.app.list.cursor.move_up()
+							task.delete()
 
 				# If in insert mode
 				else
 					switch c
 						when 'backspace' 
-							task.char_list.deleteChar()
+							if mc.app.list.cursor.char.prev is null
+								task.delete().parent.add_task(task).set_cursor()
+							else
+								task.char_list.deleteChar()
 						when 'return'
 							unless task.char_list.is_empty()
-								# task.parent.task_list.set_current task
-								task.parent.task_list.addTask() if task.parent
+								task.add_task()
 						else
 							task.char_list.addChar(c) unless c.length > 1
 

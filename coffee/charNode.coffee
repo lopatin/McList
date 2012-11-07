@@ -22,7 +22,6 @@ class mc.CharNode
 			@next = _char
 			@char_list.end = _char
 			_char.prev = this
-
 		_char
 
 	deleteNode: ->
@@ -39,4 +38,7 @@ class mc.CharNode
 			temp = @prev
 			@prev = temp.next = null
 		temp
+
+	task: ->
+		@char_list.task
 		

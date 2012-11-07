@@ -17,8 +17,13 @@ body
       .content
         .character
           display: inline-block
-          font-size: 14px
+          font-size: 13px
+          text-align: center
           width: 9px
+          transition: background-color .05s
+          -webkit-transition: background-color .05s
+          &:hover
+            background-color: #eee
           &.dot
             font-size: 40px
             font-weight: bold

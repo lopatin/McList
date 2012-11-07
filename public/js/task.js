@@ -5,17 +5,24 @@
   mc = McList;
 
   mc.Task = (function() {
+    var insert;
 
-    function Task(parent, list) {
+    function Task(parent, list, sentinel) {
       this.parent = parent;
       this.list = list;
+      this.sentinel = sentinel;
       this.next = this.prev = null;
+      if (!this.parent || !this.sentinel) {
+        this.child_sentinel = new mc.Task(this, this.list, true);
+        this.first_child = this.last_child = this.child_sentinel;
+      } else {
+        this.first_child = this.last_child = null;
+      }
       this.char_list = new mc.CharNodeList(this);
-      this.task_list = new mc.TaskList(this, this.list);
       this.element = $("<div>").addClass('task');
-      this.content_div = $("<div>").addClass('content').appendTo(this.element);
+      this.content_div = $("<div></div>").addClass('content').appendTo(this.element);
       this.children_div = $("<div>").addClass('children').appendTo(this.element);
-      this.list.cursor.set_char(this.char_list.end);
+      this.set_cursor();
       if (!this.parent) {
         this.list.element.append(this.element);
       }
@@ -24,11 +31,14 @@
 
     Task.prototype.render = function(recursive) {
       var char, task, _fn, _i, _j, _len, _len1, _ref, _ref1, _results;
+      if (this.sentinel) {
+        return;
+      }
       this.content_div.html('');
       _ref = this.char_list.to_array();
       _fn = function(char, list, content_div) {
         content_div.append(char.element);
-        return char.element.click(function() {
+        return char.element.bind('click mousedragged mousedown', function() {
           return list.cursor.set_char(char);
         });
       };
@@ -38,7 +48,7 @@
       }
       this.children_div.html('');
       if (recursive) {
-        _ref1 = this.task_list.to_array();
+        _ref1 = this.get_children();
         _results = [];
         for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
           task = _ref1[_j];
@@ -49,50 +59,99 @@
       }
     };
 
-    Task.prototype.addTaskAfter = function(_task) {
-      var temp;
-      if (!_task) {
-        _task = new mc.Task(this.parent, this.list);
+    Task.prototype.add_task = function(new_task, insert_before) {
+      if (!this.parent) {
+        return null;
       }
-      _task.parent = this.parent;
-      if (this.next !== null) {
-        temp = this.next;
-        _task.next = temp;
-        this.next = _task;
-        _task.prev = temp.prev;
-        temp.prev = _task;
+      if (!new_task) {
+        new_task = new mc.Task(this.parent, this.list);
+      }
+      new_task.parent = this.parent;
+      new_task.list = this.list;
+      if (this.sentinel) {
+        this.parent.first_child = this.parent.last_child = new_task;
+        new_task.next = new_task.prev = null;
+      } else if (insert_before) {
+        if (this.parent.first_child === this) {
+          this.parent.first_child = new_task;
+        }
+        insert.call(this, 'prev', 'next', new_task);
       } else {
-        _task.prev = this;
-        this.next = _task;
+        if (this.parent.last_child === this) {
+          this.parent.last_child = new_task;
+        }
+        insert.call(this, 'next', 'prev', new_task);
       }
-      return _task;
+      return new_task;
     };
 
-    Task.prototype.deleteTask = function() {
+    insert = function(dir1, dir2, new_task) {
       var temp;
-      if (this.next !== null) {
-        temp = this.next;
-        temp.prev = this.prev;
-        if (this.prev !== null) {
-          temp = this.prev;
-          temp.next = this.next;
-        }
-        this.next = this.prev = null;
+      if (this[dir1]) {
+        temp = this[dir1];
+        new_task[dir1] = temp;
+        this[dir1] = new_task;
+        new_task[dir2] = temp[dir2];
+        return temp[dir2] = new_task;
       } else {
-        if (this.prev !== null) {
-          temp = this.prev;
-          this.prev = temp.next = null;
-        }
+        new_task[dir2] = this;
+        new_task[dir1] = null;
+        return this[dir1] = new_task;
       }
-      temp.set_cursor();
-      return {
-        deleted: this,
-        current: temp
-      };
+    };
+
+    Task.prototype.is_root = function() {
+      return !this.parent;
+    };
+
+    Task.prototype["delete"] = function() {
+      if (!this.parent) {
+        return null;
+      }
+      if (this.next && this.prev) {
+        this.next.prev = this.prev;
+        this.prev.next = this.next;
+      } else if (this.next) {
+        this.next.prev = null;
+        this.parent.first_child = this;
+      } else if (this.prev) {
+        this.prev.next = null;
+        this.parent.last_child = this;
+      } else {
+        this.parent.first_child = this.parent.last_child = this.child_sentinel;
+      }
+      return this;
+    };
+
+    Task.prototype.get_children = function() {
+      var arr, curr;
+      arr = [];
+      curr = this.first_child;
+      while (curr) {
+        arr.push(curr);
+        curr = curr.next;
+      }
+      return arr;
+    };
+
+    Task.prototype.has_children = function() {
+      return this.first_child && this.first_child !== this.child_sentinel;
     };
 
     Task.prototype.set_cursor = function() {
-      return this.list.cursor.set_char(this.char_list.end);
+      console.log(this.list);
+      this.list.cursor.set_char(this.char_list.end);
+      return this.list.render();
+    };
+
+    Task.prototype.get_last_child = function(recursive) {
+      if (this.sentinel) {
+        return this.parent;
+      } else if (recursive && this.has_children) {
+        return this.last_child.get_last_child(true);
+      } else {
+        return this.last_child;
+      }
     };
 
     Task.prototype.to_string = function() {

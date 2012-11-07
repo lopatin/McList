@@ -20,7 +20,7 @@ class mc.TaskList
 			@length++
 		else
 			_task.parent = @parent if _task
-			@current = @current.addTaskAfter(_task)
+			@current = @current.add_task _task, false
 
 		if @end.next != null then @end = @current
 		if @start.prev != null then @start = @current

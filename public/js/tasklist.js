@@ -28,7 +28,7 @@
         if (_task) {
           _task.parent = this.parent;
         }
-        this.current = this.current.addTaskAfter(_task);
+        this.current = this.current.add_task(_task, false);
       }
       if (this.end.next !== null) {
         this.end = this.current;

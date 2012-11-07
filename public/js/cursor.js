@@ -15,7 +15,14 @@
         this.char.element.removeClass('cursor');
       }
       this.char = new_char;
-      return this.char.element.addClass('cursor');
+      this.char.element.addClass('cursor');
+      this.list.render();
+      console.log("cursor on: ");
+      return console.log(this.char.char_list.task);
+    };
+
+    Cursor.prototype.set_task = function(new_task) {
+      return new_task.set_cursor();
     };
 
     Cursor.prototype.move_left = function() {
@@ -24,39 +31,32 @@
       }
     };
 
-    Cursor.prototype.move_down = function(curr_task) {
-      var _parent;
-      if (curr_task.task_list.start !== null) {
-        return this.set_char(curr_task.task_list.start.char_list.end);
-      } else if (curr_task.next !== null) {
-        return this.set_char(curr_task.next.char_list.end);
+    Cursor.prototype.move_down = function() {
+      var curr, next;
+      next = this.char.task().next;
+      if (this.char.task().has_children()) {
+        return this.set_task(this.char.task().first_child);
+      } else if (next) {
+        return this.set_task(next);
       } else {
-        _parent = curr_task.parent;
-        while (_parent !== null) {
-          if (_parent.next !== null) {
-            this.set_char(_parent.next.char_list.end);
+        curr = this.char.task().parent;
+        while (curr) {
+          if (curr.next) {
+            this.set_task(curr.next);
             return;
-          } else {
-            _parent = _parent.parent;
           }
+          curr = curr.parent;
         }
       }
     };
 
-    Cursor.prototype.move_up = function(curr_task) {
-      var prev_subtask;
-      if (curr_task.prev === null) {
-        if (curr_task.parent) {
-          this.set_char(curr_task.parent.char_list.end);
-        } else {
-          this.set_char(curr_task.char_list.start);
-        }
-      } else {
-        prev_subtask = curr_task.prev;
-        while (prev_subtask.task_list.end !== null) {
-          prev_subtask = prev_subtask.task_list.end;
-        }
-        return this.set_char(prev_subtask.char_list.end);
+    Cursor.prototype.move_up = function() {
+      var prev;
+      prev = this.char.task().prev;
+      if (prev) {
+        return this.set_task(prev.get_last_child(true) || prev);
+      } else if (!this.char.task().parent.is_root()) {
+        return this.set_task(this.char.task().parent);
       }
     };
 
