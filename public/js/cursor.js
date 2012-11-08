@@ -51,10 +51,12 @@
     };
 
     Cursor.prototype.move_up = function() {
-      var prev;
+      var prev, temp;
       prev = this.char.task().prev;
       if (prev) {
-        return this.set_task(prev.get_last_child(true) || prev);
+        temp = prev.get_last_child(true) || prev;
+        this.set_task(temp);
+        return console.log(prev.to_string());
       } else if (!this.char.task().parent.is_root()) {
         return this.set_task(this.char.task().parent);
       }

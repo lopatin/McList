@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <title>Jasmine Spec Runner</title>
+
+  <link rel="shortcut icon" type="image/png" href="lib/jasmine-1.2.0/jasmine_favicon.png">
+  <link rel="stylesheet" type="text/css" href="lib/jasmine-1.2.0/jasmine.css">
+  <link rel="stylesheet" type="text/css" href="/styles/main.css">
+
+
+</head>
+
+<body>
+  <div id="statusBar">
+    <div class="container">
+      <div id='logo'>Mclist</div>
+      <div id='status' class='command_mode'>
+        <span class='command'>Command Mode</span>
+        <span class='insert'>Insert Mode</span>
+      </div>
+      <div class='clear'></div>
+    </div>
+  </div>
+  <div class="container">
+    <div id="mainList">
+    </div>
+  </div>
+
+  <!-- Javascript files -->
+
+  <script type="text/javascript" src="lib/jasmine-1.2.0/jasmine.js"></script>
+  <script type="text/javascript" src="lib/jasmine-1.2.0/jasmine-html.js"></script>
+
+  <!-- Source files -->
+  <!-- // <script type="text/javascript" src="spec/SpecHelper.js"></script> -->
+  <script type="text/javascript" src="/js/jquery.min.js"></script>
+  <script type="text/javascript" src="/js/underscore.js"></script>
+  <script type="text/javascript" src="/js/matches.js"></script>
+  <script type="text/javascript"> 
+  var McList = {
+    main_list_id: "mainList"
+  }; 
+  </script>
+  <script type="text/javascript" src="/js/commander.js"></script>
+  <script type="text/javascript" src="/js/keycodes.js"></script>
+  <script type="text/javascript" src="/js/cursor.js"></script>
+  <script type="text/javascript" src="/js/charNode.js"></script>
+  <script type="text/javascript" src="/js/charNodeList.js"></script>
+  <script type="text/javascript" src="/js/task.js"></script>
+  <script type="text/javascript" src="/js/tasklist.js"></script>
+  <script type="text/javascript" src="/js/list.js"></script>
+  <script type="text/javascript" src="/js/mclist.js"></script>
+
+  <!-- Spec files -->
+  <script type="text/javascript" src="spec/MclistSpec.js"></script>
+
+  <script type="text/javascript">
+    (function() {
+      var jasmineEnv = jasmine.getEnv();
+      jasmineEnv.updateInterval = 1000;
+
+      var htmlReporter = new jasmine.HtmlReporter();
+
+      jasmineEnv.addReporter(htmlReporter);
+
+      jasmineEnv.specFilter = function(spec) {
+        return htmlReporter.specFilter(spec);
+      };
+
+      var currentWindowOnload = window.onload;
+
+      window.onload = function() {
+        if (currentWindowOnload) {
+          currentWindowOnload();
+        }
+        execJasmine();
+      };
+
+      function execJasmine() {
+        jasmineEnv.execute();
+      }
+
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

@@ -50,7 +50,9 @@ class mc.Cursor
 	move_up: ->
 		prev = @char.task().prev
 		if prev 
-			@set_task prev.get_last_child(true) or prev 
+			temp = prev.get_last_child(true) or prev
+			@set_task (temp)
+			console.log prev.to_string()
 		else if not @char.task().parent.is_root()
 			@set_task @char.task().parent
 

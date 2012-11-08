@@ -193,4 +193,11 @@
     }
   };
 
+  mc.KeyCodeHelper.keyCodeMap_r = (function() {
+    return _.reduce(this.keyCodeMap, function(memo, name, code) {
+      memo[name] = code;
+      return memo;
+    }, {});
+  }).call(mc.KeyCodeHelper);
+
 }).call(this);

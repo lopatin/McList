@@ -5,8 +5,7 @@
 mc = McList
 
 class mc.List
-	constructor: (@command_mode)->
-		@element = $("#mainList")
+	constructor: (@command_mode, @element)->
 		@cursor = new mc.Cursor(this)
 		@root_task = new mc.Task(null, this)
 		console.log "adding to last child of root task"

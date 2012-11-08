@@ -63,6 +63,7 @@
                 mc.app.list.toggle_command_mode();
                 break;
               case 'i':
+                console.log("I PRESSED");
                 mc.app.list.toggle_command_mode();
                 mc.app.list.cursor.move_left();
                 break;

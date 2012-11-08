@@ -67,6 +67,7 @@ mc.Commander =
 						when 'a' 
 							mc.app.list.toggle_command_mode()
 						when 'i' 
+							console.log "I PRESSED"
 							mc.app.list.toggle_command_mode()
 							mc.app.list.cursor.move_left()
 						when 'l', 'right'

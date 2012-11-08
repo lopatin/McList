@@ -90,7 +90,8 @@ class mc.Task
 			@prev.next = null
 			@parent.last_child = this
 		else
-			@parent.first_child = @parent.last_child = @child_sentinel
+			console.log "SETTING SENTINEL IN PARENT"
+			@parent.first_child = @parent.last_child = @parent.child_sentinel
 
 		return this
 
@@ -104,7 +105,9 @@ class mc.Task
 		arr
 
 	has_children: ->
-		@first_child and @first_child isnt @child_sentinel
+		ret = @first_child and @first_child isnt @child_sentinel
+		console.log "HAS CHILDREN: " + ret
+		ret
 
 	set_cursor: ->
 		console.log @list
@@ -114,8 +117,10 @@ class mc.Task
 	get_last_child: (recursive) ->
 		if @sentinel
 			@parent
-		else if recursive and @has_children
+		else if recursive and @has_children()
 			@last_child.get_last_child(true)
+		else if @last_child.sentinel
+			null
 		else
 			@last_child
 

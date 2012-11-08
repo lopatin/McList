@@ -5,8 +5,8 @@
 mc = McList
 
 class mc.Mclist
-	constructor: ->
-		@list = new mc.List(true)
+	constructor: (@main_list_element) ->
+		@list = new mc.List(true, @main_list_element)
 		mc.Commander.init()
 
 #
@@ -14,5 +14,5 @@ class mc.Mclist
 #
 
 $( ->
-	mc.app = new mc.Mclist()
+	mc.app = new mc.Mclist($("#"+mc.main_list_id))
 )

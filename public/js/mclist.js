@@ -6,8 +6,9 @@
 
   mc.Mclist = (function() {
 
-    function Mclist() {
-      this.list = new mc.List(true);
+    function Mclist(main_list_element) {
+      this.main_list_element = main_list_element;
+      this.list = new mc.List(true, this.main_list_element);
       mc.Commander.init();
     }
 
@@ -16,7 +17,7 @@
   })();
 
   $(function() {
-    return mc.app = new mc.Mclist();
+    return mc.app = new mc.Mclist($("#" + mc.main_list_id));
   });
 
 }).call(this);

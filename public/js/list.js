@@ -6,9 +6,9 @@
 
   mc.List = (function() {
 
-    function List(command_mode) {
+    function List(command_mode, element) {
       this.command_mode = command_mode;
-      this.element = $("#mainList");
+      this.element = element;
       this.cursor = new mc.Cursor(this);
       this.root_task = new mc.Task(null, this);
       console.log("adding to last child of root task");

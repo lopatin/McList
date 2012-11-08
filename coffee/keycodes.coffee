@@ -49,3 +49,10 @@ mc.KeyCodeHelper =
 		77:"M", 78:"N", 79:"O", 80:"P", 81:"Q", 82:"R", 83:"S", 84:"T", 85:"U", 86:"V", 87:"W", 88:"X", 89:"Y", 90:"Z",
 		13:"shift_return"
 	}
+
+mc.KeyCodeHelper.keyCodeMap_r = ( ->
+	_.reduce @keyCodeMap, (memo, name, code) -> 
+		memo[name] = code
+		memo
+	, {}
+).call mc.KeyCodeHelper

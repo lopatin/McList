@@ -118,7 +118,8 @@
         this.prev.next = null;
         this.parent.last_child = this;
       } else {
-        this.parent.first_child = this.parent.last_child = this.child_sentinel;
+        console.log("SETTING SENTINEL IN PARENT");
+        this.parent.first_child = this.parent.last_child = this.parent.child_sentinel;
       }
       return this;
     };
@@ -135,7 +136,10 @@
     };
 
     Task.prototype.has_children = function() {
-      return this.first_child && this.first_child !== this.child_sentinel;
+      var ret;
+      ret = this.first_child && this.first_child !== this.child_sentinel;
+      console.log("HAS CHILDREN: " + ret);
+      return ret;
     };
 
     Task.prototype.set_cursor = function() {
@@ -147,8 +151,10 @@
     Task.prototype.get_last_child = function(recursive) {
       if (this.sentinel) {
         return this.parent;
-      } else if (recursive && this.has_children) {
+      } else if (recursive && this.has_children()) {
         return this.last_child.get_last_child(true);
+      } else if (this.last_child.sentinel) {
+        return null;
       } else {
         return this.last_child;
       }
