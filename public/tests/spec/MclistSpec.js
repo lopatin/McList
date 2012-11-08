@@ -41,4 +41,5 @@ describe("McList", function(){
 		e.which = mc.KeyCodeHelper.keyCodeMap_r[key];
 		$(document.body).trigger(e);
 	}
+	
 });
