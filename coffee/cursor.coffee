@@ -75,3 +75,6 @@ class mc.Cursor
 	move_to_first: ->
 		@set_char @char.char_list.start if @char.char_list.start
 
+	task: ->
+		@char.task()
+

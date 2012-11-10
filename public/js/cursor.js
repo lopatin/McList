@@ -80,6 +80,10 @@
       }
     };
 
+    Cursor.prototype.task = function() {
+      return this.char.task();
+    };
+
     return Cursor;
 
   })();

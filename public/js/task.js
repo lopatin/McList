@@ -20,7 +20,7 @@
       }
       this.char_list = new mc.CharNodeList(this);
       this.element = $("<div>").addClass('task');
-      this.content_div = $("<div></div>").addClass('content').appendTo(this.element);
+      this.content_div = $("<li>").addClass('content').appendTo(this.element);
       this.children_div = $("<div>").addClass('children').appendTo(this.element);
       this.set_cursor();
       if (!this.parent) {
@@ -118,7 +118,6 @@
         this.prev.next = null;
         this.parent.last_child = this;
       } else {
-        console.log("SETTING SENTINEL IN PARENT");
         this.parent.first_child = this.parent.last_child = this.parent.child_sentinel;
       }
       return this;
@@ -138,7 +137,6 @@
     Task.prototype.has_children = function() {
       var ret;
       ret = this.first_child && this.first_child !== this.child_sentinel;
-      console.log("HAS CHILDREN: " + ret);
       return ret;
     };
 

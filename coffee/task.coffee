@@ -14,11 +14,10 @@ class mc.Task
 		else
 			@first_child = @last_child = null
 
-
-		@char_list = new mc.CharNodeList(@)
+		@char_list = new mc.CharNodeList(this)
 
 		@element = $("<div>").addClass('task')
-		@content_div = $("<div></div>").addClass('content').appendTo(@element)
+		@content_div = $("<li>").addClass('content').appendTo(@element)
 		@children_div = $("<div>").addClass('children').appendTo(@element)
 
 		@set_cursor()
@@ -90,7 +89,6 @@ class mc.Task
 			@prev.next = null
 			@parent.last_child = this
 		else
-			console.log "SETTING SENTINEL IN PARENT"
 			@parent.first_child = @parent.last_child = @parent.child_sentinel
 
 		return this
@@ -106,7 +104,6 @@ class mc.Task
 
 	has_children: ->
 		ret = @first_child and @first_child isnt @child_sentinel
-		console.log "HAS CHILDREN: " + ret
 		ret
 
 	set_cursor: ->

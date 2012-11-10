@@ -1,8 +1,7 @@
 describe("McList", function(){
-	var list, root, cursor;
+	var list, root, cursor, task;
 
 	beforeEach(function() {
-		mc = McList;
 		list = mc.app.list;
 		root = list.root_task;
 		cursor = list.cursor;
@@ -16,9 +15,14 @@ describe("McList", function(){
 	});
 
 	describe("Typing", function(){
+		var simulator, task;
+
 		beforeEach(function(){
-			if(list.command_mode)
-				press_key('i');
+			/*
+			 * Create a dedicated simulator and test task for each test case
+			 */
+			simulator = new mc.TaskSimulator();
+			task = simulator.task;
 		});
 
 		it("should begin with an empty char list with cursor focus", function(){
@@ -27,19 +31,38 @@ describe("McList", function(){
 		});
 
 		it("should enter insert mode", function(){
+			simulator.run(["i"]);
 			expect(list.command_mode).toEqual(false);
 		});
 
-		it("should create a single character task after pressing a letter key", function(){
-			press_key('p');
-			expect(task.to_string()).toEqual('p');
+		it("should correctly type all numbers and letters", function(){
+			var test_str = "abcdefghikjlmnopqrstuvwxyz1234556789";
+			simulator.run(test_str.split(''));
+			expect(task.to_string()).toEqual(test_str);
+		});
+
+		it("should enter command mode", function(){
+			simulator.run(["escape"]);
+			expect(list.command_mode).toEqual(true);
 		});
 	});
 
-	function press_key(key){
-		var e = jQuery.Event("keydown");
-		e.which = mc.KeyCodeHelper.keyCodeMap_r[key];
-		$(document.body).trigger(e);
-	}
-	
+	describe("Task management", function(){
+		var simulator, task;
+
+		beforeEach(function(){
+			simulator = new mc.TaskSimulator();
+			task = simulator.task;
+		});
+
+		it("should create a new child task by pressing o + tab in command mode", function(){
+			list.enter_command_mode();
+			simulator.run(['o', 'tab']);
+			expect(task).toEqual(cursor.task());
+		});
+
+		it("should create a new sibling task after the current one by pressing o", function(){
+
+		});
+	});
 });
