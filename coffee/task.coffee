@@ -103,8 +103,7 @@ class mc.Task
 		arr
 
 	has_children: ->
-		ret = @first_child and @first_child isnt @child_sentinel
-		ret
+		@first_child and @first_child isnt @child_sentinel
 
 	set_cursor: ->
 		console.log @list

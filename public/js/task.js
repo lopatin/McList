@@ -135,9 +135,7 @@
     };
 
     Task.prototype.has_children = function() {
-      var ret;
-      ret = this.first_child && this.first_child !== this.child_sentinel;
-      return ret;
+      return this.first_child && this.first_child !== this.child_sentinel;
     };
 
     Task.prototype.set_cursor = function() {
