@@ -20,7 +20,7 @@
       }
       this.char_list = new mc.CharNodeList(this);
       this.element = $("<div>").addClass('task');
-      this.content_div = $("<li>").addClass('content').appendTo(this.element);
+      this.content_div = $("<li>").addClass('content ' + (this.sentinel || !this.parent ? 'sentinel' : '')).appendTo(this.element);
       this.children_div = $("<div>").addClass('children').appendTo(this.element);
       this.set_cursor();
       if (!this.parent) {
@@ -139,7 +139,6 @@
     };
 
     Task.prototype.set_cursor = function() {
-      console.log(this.list);
       this.list.cursor.set_char(this.char_list.end);
       return this.list.render();
     };
@@ -159,6 +158,8 @@
     Task.prototype.to_string = function() {
       return this.char_list.to_string();
     };
+
+    Task.prototype.export_data = function() {};
 
     return Task;
 

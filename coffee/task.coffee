@@ -17,7 +17,7 @@ class mc.Task
 		@char_list = new mc.CharNodeList(this)
 
 		@element = $("<div>").addClass('task')
-		@content_div = $("<li>").addClass('content').appendTo(@element)
+		@content_div = $("<li>").addClass('content ' + if @sentinel or !@parent then 'sentinel' else '').appendTo(@element)
 		@children_div = $("<div>").addClass('children').appendTo(@element)
 
 		@set_cursor()
@@ -106,7 +106,7 @@ class mc.Task
 		@first_child and @first_child isnt @child_sentinel
 
 	set_cursor: ->
-		console.log @list
+		# console.log @list
 		@list.cursor.set_char @char_list.end
 		@list.render()
 
@@ -123,3 +123,7 @@ class mc.Task
 
 	to_string: ->
 		@char_list.to_string()
+
+	export_data: ->
+		return
+

@@ -37,8 +37,7 @@
       if (key && key !== 'shift' && key !== 'ctrl' && key !== 'alt') {
         this.key_queue.push(key);
       }
-      this.analyze_queue();
-      return console.log(this.key_queue);
+      return this.analyze_queue();
     },
     analyze_queue: function() {
       var charmap, self, shift_mode, task;
@@ -63,7 +62,6 @@
                 mc.app.list.toggle_command_mode();
                 break;
               case 'i':
-                console.log("I PRESSED");
                 mc.app.list.toggle_command_mode();
                 mc.app.list.cursor.move_left();
                 break;

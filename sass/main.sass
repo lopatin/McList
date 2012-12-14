@@ -1,3 +1,5 @@
+$status_transition_time: .2s
+
 body
   background: #eee
   padding: 0 0 30px 0
@@ -11,11 +13,13 @@ body
     background: #fff
     height: 500px
     font-family: "Courier New", Arial
+    overflow: hidden
     h1
       color: blue
     .task
       .content
         .character
+          position: relative
           display: inline-block
           font-size: 13px
           text-align: center
@@ -27,6 +31,20 @@ body
           &.dot
             font-size: 40px
             font-weight: bold
+          &.cursor
+            .bottom-row
+              display: block
+
+          .bottom-row
+            display: none
+            position: absolute
+            left: -1000px
+            width: 5000px
+            bottom: 0
+            height: 1px
+            background-color: #eee
+        &.sentinel
+          display: none
       .children
         padding: 0 0 0 20px
     &.show-cursor
@@ -42,6 +60,7 @@ body
 
 
 #statusBar
+  position: relative
   #logo
     float: left
     color: #000
@@ -49,6 +68,7 @@ body
     margin: 5px 8px
   #status
     background-color: green
+    overflow: hidden
     color: white
     text-shadow: 0px 1px 0px rgba(0,0,0,.1)
     float: right
@@ -57,16 +77,37 @@ body
     margin: 2px 10px 0 0
     display: block
     border-radius: 2px
+    height: 12px
+    width: 88px
+    position: relative
+    transition: background-color $status_transition_time
+    -o-transition: background-color $status_transition_time
+    -webkit-transition: background-color $status_transition_time
+    -moz-transition: background-color $status_transition_time
     .command
-      display: none
+      position: absolute
+      top: -20px
+      left: 17px
+      transition: top $status_transition_time
+      -o-transition: top $status_transition_time
+      -webkit-transition: top $status_transition_time
+      -moz-transition: top $status_transition_time
     .insert
-      display: block
+      position: absolute
+      top: 5px
+      left: 26px 
+      transition: top $status_transition_time
+      -o-transition: top $status_transition_time
+      -webkit-transition: top $status_transition_time
+      -moz-transition: top $status_transition_time
     &.command_mode
       background-color: rgb(43, 140, 185)
       .command
-        display: block 
+        top: 5px
+        left: 17px
       .insert
-        display: none
+        top: 40px
+        left: 26px 
 
   .container
     padding: 3px 0 0 0

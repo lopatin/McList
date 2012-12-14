@@ -11,13 +11,13 @@
       this.character = character != null ? character : null;
       this.next = this.prev = null;
       this.element = $("<div>").addClass('character ' + (!this.character ? "sentinel" : "")).html(!this.character || this.character === ' ' ? "&nbsp;" : this.character);
+      this.element.append($("<div class='bottom-row'>"));
     }
 
     CharNode.prototype.addAfter = function(input) {
       var temp, _char;
       _char = new mc.CharNode(this.char_list, input);
       if (this.char_list.is_empty()) {
-        console.log('empty');
         this.char_list.start = this.char_list.end = _char;
         _char.next = _char.prev = null;
       } else if (this.next) {

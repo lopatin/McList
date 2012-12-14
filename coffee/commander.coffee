@@ -34,7 +34,7 @@ mc.Commander =
 		if key and key != 'shift' and key != 'ctrl' and key != 'alt'
 			@key_queue.push key
 		@analyze_queue()
-		console.log @key_queue
+		# console.log @key_queue
 
 	analyze_queue: ->
 		self = this
@@ -67,7 +67,7 @@ mc.Commander =
 						when 'a' 
 							mc.app.list.toggle_command_mode()
 						when 'i' 
-							console.log "I PRESSED"
+							# console.log "I PRESSED"
 							mc.app.list.toggle_command_mode()
 							mc.app.list.cursor.move_left()
 						when 'l', 'right'

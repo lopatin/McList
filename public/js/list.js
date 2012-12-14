@@ -11,8 +11,6 @@
       this.element = element;
       this.cursor = new mc.Cursor(this);
       this.root_task = new mc.Task(null, this);
-      console.log("adding to last child of root task");
-      console.log(this.root_task.last_child);
       this.root_task.last_child.add_task();
       this.update_status_bar();
       this.render();

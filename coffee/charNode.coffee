@@ -4,12 +4,13 @@ class mc.CharNode
 	constructor: (@char_list, @character = null) ->
 		@next = @prev = null
 		@element = $("<div>").addClass('character ' + (if !@character then "sentinel" else "")).html(if !@character or @character == ' ' then "&nbsp;" else @character)
+		@element.append $("<div class='bottom-row'>");
 
 	addAfter: (input) ->
 		_char = new mc.CharNode @char_list, input
 
 		if @char_list.is_empty()
-			console.log 'empty'
+			# console.log 'empty'
 			@char_list.start = @char_list.end = _char
 			_char.next = _char.prev = null
 		else if @next

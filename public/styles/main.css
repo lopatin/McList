@@ -11,10 +11,12 @@ body {
     padding: 40px 20px 20px 20px;
     background: white;
     height: 500px;
-    font-family: "Courier New", Arial; }
+    font-family: "Courier New", Arial;
+    overflow: hidden; }
     .container #mainList h1 {
       color: blue; }
     .container #mainList .task .content .character {
+      position: relative;
       display: inline-block;
       font-size: 13px;
       text-align: center;
@@ -26,6 +28,18 @@ body {
       .container #mainList .task .content .character.dot {
         font-size: 40px;
         font-weight: bold; }
+      .container #mainList .task .content .character.cursor .bottom-row {
+        display: block; }
+      .container #mainList .task .content .character .bottom-row {
+        display: none;
+        position: absolute;
+        left: -1000px;
+        width: 5000px;
+        bottom: 0;
+        height: 1px;
+        background-color: #eeeeee; }
+    .container #mainList .task .content.sentinel {
+      display: none; }
     .container #mainList .task .children {
       padding: 0 0 0 20px; }
     .container #mainList.show-cursor .character.cursor {
@@ -37,6 +51,7 @@ body {
       color: white; }
 
 #statusBar {
+  position: relative;
   top: 0;
   font-family: Arial, Verdana;
   height: 20px;
@@ -50,6 +65,7 @@ body {
     margin: 5px 8px; }
   #statusBar #status {
     background-color: green;
+    overflow: hidden;
     color: white;
     text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
     float: right;
@@ -57,17 +73,38 @@ body {
     padding: 4px 10px;
     margin: 2px 10px 0 0;
     display: block;
-    border-radius: 2px; }
+    border-radius: 2px;
+    height: 12px;
+    width: 88px;
+    position: relative;
+    transition: background-color 0.2s;
+    -o-transition: background-color 0.2s;
+    -webkit-transition: background-color 0.2s;
+    -moz-transition: background-color 0.2s; }
     #statusBar #status .command {
-      display: none; }
+      position: absolute;
+      top: -20px;
+      left: 17px;
+      transition: top 0.2s;
+      -o-transition: top 0.2s;
+      -webkit-transition: top 0.2s;
+      -moz-transition: top 0.2s; }
     #statusBar #status .insert {
-      display: block; }
+      position: absolute;
+      top: 5px;
+      left: 26px;
+      transition: top 0.2s;
+      -o-transition: top 0.2s;
+      -webkit-transition: top 0.2s;
+      -moz-transition: top 0.2s; }
     #statusBar #status.command_mode {
       background-color: #2b8cb9; }
       #statusBar #status.command_mode .command {
-        display: block; }
+        top: 5px;
+        left: 17px; }
       #statusBar #status.command_mode .insert {
-        display: none; }
+        top: 40px;
+        left: 26px; }
   #statusBar .container {
     padding: 3px 0 0 0;
     color: #eeeeee;

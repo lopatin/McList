@@ -21,5 +21,6 @@ mc.TaskSimulator = function(){
 };
 
 mc.TaskSimulator.sequences = {
-	"enter insert mode": ["i"]
+	"enter insert mode": ['i'],
+	"enter dummy text": "dummy text".split('')
 };

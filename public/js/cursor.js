@@ -16,9 +16,7 @@
       }
       this.char = new_char;
       this.char.element.addClass('cursor');
-      this.list.render();
-      console.log("cursor on: ");
-      return console.log(this.char.char_list.task);
+      return this.list.render();
     };
 
     Cursor.prototype.set_task = function(new_task) {
@@ -55,8 +53,7 @@
       prev = this.char.task().prev;
       if (prev) {
         temp = prev.get_last_child(true) || prev;
-        this.set_task(temp);
-        return console.log(prev.to_string());
+        return this.set_task(temp);
       } else if (!this.char.task().parent.is_root()) {
         return this.set_task(this.char.task().parent);
       }

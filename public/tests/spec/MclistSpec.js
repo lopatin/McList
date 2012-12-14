@@ -5,7 +5,7 @@ describe("McList", function(){
 		list = mc.app.list;
 		root = list.root_task;
 		cursor = list.cursor;
-		task = cursor.char.task();
+		task = cursor.task();
 	});
 
 	describe("Initialization", function(){
@@ -57,12 +57,19 @@ describe("McList", function(){
 
 		it("should create a new child task by pressing o + tab in command mode", function(){
 			list.enter_command_mode();
-			simulator.run(['o', 'tab']);
-			expect(task).toEqual(cursor.task());
+			simulator.run('enter dummy text');
+			list.enter_command_mode();
+			console.log(simulator.task.to_string());
+			simulator.run(['o', 'tab', 'i', 'h', 'i']);
+			var k = cursor.task();
+			console.log(simulator.task.to_string());
+			// console.log("PARENT");
+			// console.log(k.parent);
+			expect(task === mc.app.list.cursor.char.char_list.task.parent).toEqual(true);
 		});
 
-		it("should create a new sibling task after the current one by pressing o", function(){
+		// it("should create a new sibling task after the current one by pressing o", function(){
 
-		});
+		// });
 	});
 });

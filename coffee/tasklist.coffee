@@ -12,8 +12,8 @@ class mc.TaskList
 
 	addTask: (_task) ->
 		if _task
-			console.log _task.char_list.to_string()
-			console.log "belongs to " + _task.parent.char_list.to_string()
+			# console.log _task.char_list.to_string()
+			# console.log "belongs to " + _task.parent.char_list.to_string()
 		if @current is null
 			_task = new mc.Task @parent, @list if !_task
 			@start = @end = @current = _task

@@ -12,8 +12,8 @@ class mc.Cursor
 		@char = new_char
 		@char.element.addClass('cursor')
 		@list.render()
-		console.log "cursor on: "
-		console.log @char.char_list.task
+		# console.log "cursor on: "
+		# console.log @char.char_list.task
 
 	set_task: (new_task) ->
 		new_task.set_cursor()
@@ -52,7 +52,7 @@ class mc.Cursor
 		if prev 
 			temp = prev.get_last_child(true) or prev
 			@set_task (temp)
-			console.log prev.to_string()
+			# console.log prev.to_string()
 		else if not @char.task().parent.is_root()
 			@set_task @char.task().parent
 

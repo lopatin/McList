@@ -8,8 +8,8 @@ class mc.List
 	constructor: (@command_mode, @element)->
 		@cursor = new mc.Cursor(this)
 		@root_task = new mc.Task(null, this)
-		console.log "adding to last child of root task"
-		console.log @root_task.last_child
+		# console.log "adding to last child of root task"
+		# console.log @root_task.last_child
 		@root_task.last_child.add_task()
 		@update_status_bar()
 
