@@ -21,9 +21,7 @@ Meteor.startup(function () {
             Accounts.createUser({
                 username: username,
                 password: password,
-                profile: {
-                    name: null
-                }
+                profile: {}
             }, function (error) {
                 if (!error) {
                     console.log('registered!');

@@ -38,5 +38,11 @@ Template.layout.hasName = function () {
  * Online now sidebar
  */
 Template.online_now.onlineCount = function () {
-    return Meteor.users.find({'profile.online': true}).count();
+    return Meteor.users.find({'profile.online': true, 'profile.name': {$ne: null}}).count();
+};
+Template.online_now.users = function () {
+    return Meteor.users.find({'profile.online': true, 'profile.name': {$ne: null}}, {
+        sort: ['profile.name'],
+        fields: {'profile.color': 1, 'profile.name': 1}
+    });
 };

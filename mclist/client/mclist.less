@@ -40,7 +40,7 @@ h3 {
 			line-height: 16px;
 		}
 		.catchphrase {
-			margin: 0;
+			margin: 0 0 0 1px;
 			color: @lightGray;
 			font-size: 12px;
 		}
@@ -58,7 +58,7 @@ h3 {
 					text-decoration: none;
 					font-size: 14px;
 					display: block;
-					padding: 4px;
+					padding: 4px 2px;
 
 					&:hover {
 						// background-color: #eee;
@@ -69,7 +69,7 @@ h3 {
 						vertical-align: top;
 					}
 					.icon {
-						margin: 0px 5px 0 0 ;
+						margin: 0px 3px 0 0 ;
 						vertical-align: top;
 					}
 				}
@@ -105,6 +105,32 @@ h3 {
 	width: 200px;
 	border-left: 1px solid @separatorGray;
 	box-sizing: border-box;
+
+	ul.online_users {
+		padding: 0;
+		margin: 0;
+		width: 100%;
+		li {
+			width: 100%;
+			display: block;
+			list-style: none;
+			margin: 0 0 3px 0;
+
+			.color {
+				display: inline-block;
+				height: 20px;
+				width: 4px;
+				vertical-align: top;
+				margin-left: -1px;
+			}
+			.name {
+				display: inline-block;
+				font-size: 12px;
+				vertical-align: top;
+				padding-top: 5px;
+			}
+		}
+	}
 }
 
 #AppLoading {
