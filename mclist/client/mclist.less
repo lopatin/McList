@@ -1,11 +1,21 @@
-@lightGray: #ccc;
+@lightGray: #cccccc;
+@separatorGray: #dddddd;
+@selectedColor: #2C93EB;
+@almostBlack: #333333;
 
 body {
 	font-family: Arial;
 }
 
 #LeftSidebar {
-	padding: 15px 0 0 15px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	width: 150px;
+	border-right: 1px solid @separatorGray;
+	padding: 15px 0 0 20px;
+
 	#Logo {
 		.logo {
 			font-size: 22px;
@@ -18,5 +28,47 @@ body {
 			color: @lightGray;
 			font-size: 12px;
 		}
+	}
+
+	#NavList {
+		margin-top: 20px;
+		ul {
+			padding: 0;
+			margin: 0;
+			li {
+				list-style: none;
+				a {
+					color: @almostBlack;
+					text-decoration: none;
+					font-size: 14px;
+
+					.text {
+						display: inline-block;
+					}
+				}
+				&.selected {
+
+				}
+			}
+		}
+	}
+}
+
+.icon {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	background-size: 100% 100%;
+	&.inbox {
+		background-image: url('/images/inbox_icon@2x.png');
+	}
+	&.calendar {
+		background-image: url('/images/calendar_icon@2x.png');
+	}
+	&.star {
+		background-image: url('/images/star_icon@2x.png');
+	}
+	&.checkmark {
+		background-image: url('/images/checkmark_icon@2x.png');
 	}
 }
