@@ -70,7 +70,9 @@
 </template>
 
 <template name="all">
-	all
+	{{#each items}}
+		{{> item}}
+	{{/each}}
 </template>
 
 <template name="today">
@@ -92,5 +94,19 @@
 			<input type="text" />
 			<input type="submit" />
 		</form>
+	</div>
+</template>
+
+<template name="item">
+	<div id="item_{{_id}}" class="item">
+		{{#if editing}}
+			<input type="text" />
+		{{else}}
+			{{#each characters}}
+				<div class="character">
+					{{char}}
+				</div>
+			{{/each}}
+		{{/if}}
 	</div>
 </template>

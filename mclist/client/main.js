@@ -46,3 +46,10 @@ Template.online_now.users = function () {
         fields: {'profile.color': 1, 'profile.name': 1}
     });
 };
+
+/*
+ * All items page
+ */
+Template.all.items = function () {
+    return Items.find({});
+};
