@@ -9,4 +9,5 @@ insecure
 preserve-inputs
 less
 underscore
-router
+iron-router
+accounts-password

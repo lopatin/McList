@@ -3,8 +3,24 @@
 </head>
 
 <body>
-	{{> sidebar}}
+	{{> layout}}
 </body>
+
+<template name="layout">
+	{{#if loaded}}
+		{{#if hasName}}
+			{{> sidebar}}
+			<div id="Main">
+				{{renderRouter}}
+			</div>	
+			{{> right_sidebar}}
+		{{else}}
+			{{> name_prompt}}
+		{{/if}}
+	{{else}}
+		<div id="AppLoading"></div>
+	{{/if}}
+</template>
 
 <template name="sidebar">
 	<div id="LeftSidebar">
@@ -12,35 +28,61 @@
 			<div class='logo'>Mclist</div>
 			<div class='catchphrase'>no queue for you</div>
 		</div>
-
-		<div id="NavList">
-			<ul>
-				<li class="all">
-					<a href="/">
-						<div class="icon inbox"></div> 
-						<div class="text">All</div>
-					</a>
-				</li>
-				<li class="today">
-					<a href="/">
-						<div class="icon calendar"></div> 
-						<div class="text">Today</div>
-					</a>
-				</li>
-				<li class="starred">
-					<a href="/">
-						<div class="icon star"></div> 
-						<div class="text">Starred</div>
-					</a>
-				</li>
-				<li class="done">
-					<a href="/">
-						<div class="icon checkmark"></div> 
-						<div class="text">Done</div>
-					</a>
-				</li>
-			</ul>
-		</div>
+		{{> nav_list}}
 	</div>
 </template>
 
+<template name="nav_list">
+	<div id="NavList">
+		<ul>
+			{{#each pages}}
+				{{> nav_list_item}}
+			{{/each}}
+		</ul>
+	</div>
+</template>
+
+<template name="nav_list_item">
+	<li class="{{name}} {{selected}}">
+		<a href="{{path}}">
+			<div class="icon {{icon}}"></div> 
+			<div class="text">{{text}}</div>
+		</a>
+	</li>
+</template>
+
+<template name="right_sidebar">
+	<div id="RightSidebar">
+		{{> online_now}}
+	</div>
+</template>
+
+<template name="online_now">
+	<h3>Online now ({{onlineCount}})</h3>
+</template>
+
+<template name="all">
+	all
+</template>
+
+<template name="today">
+	today	
+</template>
+
+<template name="starred">
+	starred	
+</template>
+
+<template name="done">
+	done	
+</template>
+
+<template name="name_prompt">
+	<div id="NamePrompt">
+		<h1>Hey you, what's your name?</h1>
+		<form>
+			<input type="text" />
+			<input type="submit" />
+		</form>
+	</div>
+</template>

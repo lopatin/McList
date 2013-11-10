@@ -2,9 +2,23 @@
 @separatorGray: #dddddd;
 @selectedColor: #2C93EB;
 @almostBlack: #333333;
+@leftSidebarWidth: 150px;
 
 body {
 	font-family: Arial;
+}
+
+h3 {
+	text-transform: uppercase;
+	font-size: 10px;
+	padding: 0;
+	margin: 15px;
+	color: #bbbbbb;
+	letter-spacing: 1px;
+}
+
+#Main {
+	margin: 0 0 0 @leftSidebarWidth;
 }
 
 #LeftSidebar {
@@ -12,9 +26,11 @@ body {
 	top: 0;
 	left: 0;
 	bottom: 0;
-	width: 150px;
+	width: @leftSidebarWidth;
 	border-right: 1px solid @separatorGray;
 	padding: 15px 0 0 20px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 
 	#Logo {
 		.logo {
@@ -41,17 +57,65 @@ body {
 					color: @almostBlack;
 					text-decoration: none;
 					font-size: 14px;
+					display: block;
+					padding: 4px;
+
+					&:hover {
+						// background-color: #eee;
+					}
 
 					.text {
 						display: inline-block;
+						vertical-align: top;
+					}
+					.icon {
+						margin: 0px 5px 0 0 ;
+						vertical-align: top;
 					}
 				}
 				&.selected {
-
+					a {
+						color: @selectedColor;
+					}
+					.icon {
+						&.inbox {
+							background-image: url('/images/inbox_icon_blue@2x.png');
+						}
+						&.calendar {
+							background-image: url('/images/calendar_icon_blue@2x.png');
+						}
+						&.star {
+							background-image: url('/images/star_icon_blue@2x.png');
+						}
+						&.checkmark {
+							background-image: url('/images/checkmark_icon_blue@2x.png');
+						}
+					}
 				}
 			}
 		}
 	}
+}
+
+#RightSidebar {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 200px;
+	border-left: 1px solid @separatorGray;
+	box-sizing: border-box;
+}
+
+#AppLoading {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-image: url('/images/loading.gif');
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
 }
 
 .icon {
