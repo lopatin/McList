@@ -98,15 +98,16 @@
 </template>
 
 <template name="item">
-	<div id="item_{{_id}}" class="item">
+	<div id="item_{{_id}}" class="item {{highlighted}}">
+		<div class="middot"></div>
 		{{#if editing}}
-			<input type="text" />
+			<input class="edit_text" type="text" value="{{text}}" />
 		{{else}}
-			{{#each characters}}
-				<div class="character">
-					{{char}}
-				</div>
-			{{/each}}
+			<div class="text">
+				{{#each characters}}
+					<div style="box-shadow: {{box_shadow}};" class="character {{caret}}">{{char}}</div>
+				{{/each}}
+			</div>
 		{{/if}}
 	</div>
 </template>

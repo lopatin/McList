@@ -19,13 +19,13 @@ socketDisconnected = function (userId) {
 userDisconnected = function (userId) {
     Meteor.users.update({_id: userId}, {$set: {'profile.online': false}});
     disassociateColor(userId);
-    // hideCursor(userId);
+    hideCursor(userId);
 };
 
 userConnected = function (userId) {
     Meteor.users.update({_id: userId}, {$set: {'profile.online': true}});
     associateColor(userId);
-    // showCursor(userId);
+    showCursor(userId);
 };
 
 isUserOnline = function (userId) {

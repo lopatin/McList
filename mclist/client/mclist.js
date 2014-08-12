@@ -1,38 +1,3 @@
-Meteor.startup(function () {
-    /*
-     * Authenticate an anonymous user
-     */
-    var username = localStorage.getItem('anonymous_username');
-    var password = localStorage.getItem('anonymous_password');
-    if (!Meteor.userId()) {
-        if (username && password) {
-            Meteor.loginWithPassword({username: username}, password, function (error) {
-                if (!error) {
-                    console.log('logged in!');
-                } else {
-                    console.log('Error logging in. Deleting anonymous_username and anonymous_password.');
-                    localStorage.removeItem('anonymous_username');
-                    localStorage.removeItem('anonymous_password');
-                }
-            });
-        } else {
-            username = Meteor.uuid();
-            password = 'password';
-            Accounts.createUser({
-                username: username,
-                password: password,
-                profile: {}
-            }, function (error) {
-                if (!error) {
-                    console.log('registered!');
-                    localStorage.setItem('anonymous_username', username);
-                    localStorage.setItem('anonymous_password', password);
-                }
-            });
-        }
-    }
-});
-
 /*
  * Router
  */

@@ -1,23 +1,52 @@
 /*
  * Top level items
  */
-var itemsSubscribed = false;
+itemsSubscribed = false;
 Items = new Meteor.Collection('items');
-Meteor.subscribe('items', function () {
-    itemsSubscribed = true;
-    if (Items.find().count() === 0) {
-        newItem();
+Item = {};
+
+
+/*
+ * Edit modes
+ */
+enterCommandMode = function () {
+    var item = Cursor.getItem();
+    if (item) {
+        Cursor.setPosition(Cursor.getCaretPosition());
+        Items.update({_id: item._id}, {$set: {
+            editor: null
+        }});
     }
-});
+    Session.set('command_mode', true);
+};
+
+enterInsertMode = function () {
+    var item = Cursor.getItem();
+    if (item) {
+        Items.update({_id: item._id}, {$set: {
+            editor: Meteor.userId()
+        }});
+    }
+    Session.set('command_mode', false);
+};
+
+
 
 /*
  * Start editing a newly created item
  */
+order = 1;
 newItem = function (parent, before, after) {
-    var order = 1;
-    var itemId = Items.insert({order: order, editor: Meteor.userId(), text: ''});
-    setCaretPosition("item_"+itemId, 0);
+    var itemId = Items.insert({order: order, editor: null, text: ''});
+    console.log(Session.get('cursor_id'));
+    Cursors.update({_id: Session.get('cursor_id')}, {$set: {
+        item_id: itemId,
+        position: 0
+    }});
+    enterInsertMode();
+    order++;
 };
+
 
 /*
  * Item template
@@ -27,24 +56,70 @@ Template.item.editing = function () {
 };
 
 Template.item.characters = function () {
-    return _.map(this.text, function (char) {
-        return {char: char};
+    var self = this;
+    return _.map(this.text.split('').concat([' ']), function (char, i) {
+        var caret = Template.item.highlighted.apply(self) && i === Session.get('cursor_position') ? 'caret' : '';
+        var color = "rgba(0,0,0,0)";
+        var editing = false;
+        var cursor = Cursors.findOne({
+            user_id: {$ne: Meteor.userId()}, 
+            item_id: self._id,
+            position: i,
+            visible: true
+        });
+        if (!caret && cursor) {
+            color = Meteor.users.findOne(cursor.user_id).profile.color;
+            editing = Items.findOne(cursor.item_id).editor == cursor.user_id;
+        }
+        return {
+            char: char,
+            caret: caret,
+            itemId: self._id,
+            caret: caret,
+            box_shadow: (editing ? "inset 1px 0 0 #" : "inset 0 -3px 0 #") + color
+        };
     });
 };
 
 Template.item.rendered = function () {
-    console.log('rendered');
+    if (Session.get('command_mode') === false) {
+        Cursor.setCaretPosition(Cursor.getItem()._id, Cursor.getCursor().position);
+    }
+};
+
+Template.item.highlighted = function () {
+    return this._id === Session.get('cursor_item_id') ? 'highlighted' : '';
 };
 
 /*
  * Item template events
  */
 Template.item.events({
-    'keypress': function (e) {
+    'keyup': function (e) {
+        Cursor.updateCursorPosition();
+        var text = $(e.target).val();
+        Items.update({_id: this._id}, {$set: {text: text}});
+
+        // Enter
         if (e.keyCode === 13) {
-            var text = $(e.target).val();
-            Items.update({_id: this._id}, {$set: {text: text, editor: null }});
+            enterCommandMode();
+            return false;
         }
+
+        // Escape
+        if (e.keyCode === 27) {
+            enterCommandMode();
+            Cursor.moveLeft();
+            return false;
+        }
+    },
+    'click .character': function (e) {
+        var position = $(e.target).prevAll().length;
+
+        Cursors.update({_id: Session.get('cursor_id')}, {$set: {
+            item_id: this.itemId,
+            position: position
+        }});
     }
 });
 
@@ -55,26 +130,13 @@ Deps.autorun(function () {
     }
 });
 
-/*
- * Set caret position in input element
- */
-function setCaretPosition(elemId, caretPos) {
-    console.log(elemId);
-    var elem = document.getElementById(elemId);
 
-    if(elem != null) {
-        if(elem.createTextRange) {
-            var range = elem.createTextRange();
-            range.move('character', caretPos);
-            range.select();
-        }
-        else {
-            if(elem.selectionStart) {
-                elem.focus();
-                elem.setSelectionRange(caretPos, caretPos);
-            }
-            else
-                elem.focus();
-        }
-    }
-}
+Item.nextItemInList = function (item) {
+    return Items.findOne({order: {$gt: item.order}}, {sort: [['order', 'asc']]});
+};
+
+Item.previousItemInList = function (item) {
+    return Items.findOne({order: {$lt: item.order}}, {sort: [['order', 'desc']]});
+};
+
+
